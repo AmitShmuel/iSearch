@@ -1,10 +1,10 @@
 /**
  * @project WS for POPZIT
- * @author Yoav Saroya & Keren Gold
+ * @author Yoav Saroya & Amit Shmuel
  * @licence Shenkar college
  */
 
-//require('./database');
+require('./database');
 const app = require('./server'),
       port = process.env.PORT || 3000;
 
