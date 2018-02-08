@@ -1,0 +1,1 @@
+### Search Engine Made for Informational Retrieval Course in Shenkar

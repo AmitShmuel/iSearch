@@ -1,0 +1,15 @@
+{
+  "name": "isearch-ws",
+  "version": "1.0.0",
+  "description": "Search Engine Made for Informational Retrieval Course in Shenkar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yoav Saroya & Amit Shmuel",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
