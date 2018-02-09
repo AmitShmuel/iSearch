@@ -3,7 +3,7 @@ const express      = require('express'),
       bodyParser   = require('body-parser');
 
 //import routes
-//const apiRoutes      = require('./routes/api'),
+const apiRoutes      = require('./routes/api');
 //      userRoutes     = require('./routes/users'),
 //      musicRoutes    = require('./routes/music'),
 //      playlistRoutes = require('./routes/playlist');
@@ -11,11 +11,13 @@ const express      = require('express'),
 const app = express();
 
 // view engine setup
-//app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'public/views'));
 //app.set('view engine', 'hbs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Allow client to access files in public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 //prepare headers
@@ -31,7 +33,7 @@ app.use( (req, res, next) => {
 //app.use('/playlist', playlistRoutes);
 //app.use('/music', musicRoutes);
 //app.use('/user', userRoutes);
-//app.use('/', apiRoutes);
+app.use('/', apiRoutes);
 
 
 //catch 404 and forward to error handler
