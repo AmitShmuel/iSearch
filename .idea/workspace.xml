@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7eb6e157-a207-4719-acc5-637c9e377f45" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-WS/public/css/stylesheet.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-WS/public/views/index.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-WS/routes/api.js" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/iSearch-WS/server.js" afterPath="$PROJECT_DIR$/iSearch-WS/server.js" />
-    </list>
+    <list default="true" id="7eb6e157-a207-4719-acc5-637c9e377f45" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -252,18 +245,6 @@
               <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="iSearch-WS" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
-            <path>
-              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="iSearch-WS" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="public" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="iSearch-WS" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="routes" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -323,12 +304,12 @@
       <updated>1518109915239</updated>
       <workItem from="1518109916839" duration="195000" />
       <workItem from="1518110327074" duration="476000" />
-      <workItem from="1518110832750" duration="4895000" />
+      <workItem from="1518110832750" duration="5531000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5566000" />
+    <option name="totallyTimeSpent" value="6202000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
