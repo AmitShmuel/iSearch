@@ -6,7 +6,7 @@ import {SearchComponent} from "./search/search.component";
 
 const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/search', pathMatch: 'full'},
-    {path: 'search', component: SearchComponent},
+    {path: 'search', component: SearchComponent, data: {title: "bla bla"} },
     {path: 'admin-panel', component: AdminPanelComponent},
     {path: 'help', component: HelpComponent},
 ];
@@ -19,4 +19,11 @@ const APP_ROUTES:Routes = [
         RouterModule
     ]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+
+    public static TITLES = {
+        "search": "Search",
+        "admin-panel": "Admin Panel",
+        "help": "Help",
+    };
+}
