@@ -2,19 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7eb6e157-a207-4719-acc5-637c9e377f45" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/app-routing.module.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/help/help.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-APP/src/assets/images/app_logo.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-APP/src/assets/logo_icon.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-APP/src/myicon.ico" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/Yoav_Saroya.xml" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/.angular-cli.json" afterPath="$PROJECT_DIR$/iSearch-APP/.angular-cli.json" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/package-lock.json" afterPath="$PROJECT_DIR$/iSearch-APP/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/package.json" afterPath="$PROJECT_DIR$/iSearch-APP/package.json" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/app.component.html" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/app.component.html" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/app.module.ts" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/app.module.ts" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/favicon.ico" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/index.html" afterPath="$PROJECT_DIR$/iSearch-APP/src/index.html" />
+      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/assets/images/app_logo.png" afterPath="$PROJECT_DIR$/iSearch-APP/src/assets/images/app_logo.png" />
+      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/assets/logo_icon.png" afterPath="$PROJECT_DIR$/iSearch-APP/src/assets/logo_icon.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,27 +52,7 @@
         <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/search/search.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="25">
-              <caret line="1" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin-panel.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/admin-panel.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="help.component.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/help/help.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="34" lean-forward="false" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="header.component.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="header.component.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
-              <caret line="5" column="1" lean-forward="false" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -169,12 +142,12 @@
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/app-routing.module.ts" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/index.html" />
-        <option value="$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.css" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.html" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/app.component.html" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/search/search.component.html" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/admin-panel.component.html" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/help/help.component.html" />
+        <option value="$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.css" />
       </list>
     </option>
   </component>
@@ -335,6 +308,14 @@
               <item name="iSearch-APP" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="header" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="iSearch-APP" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="help" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -380,8 +361,8 @@
       <recent name="D:\Softwares\PhpStorm Workout\iSearch\iSearch-APP\src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Softwares\PhpStorm Workout\iSearch\iSearch-APP\src\assets\images" />
       <recent name="D:\Softwares\PhpStorm Workout\iSearch\iSearch-APP\src\assets" />
+      <recent name="D:\Softwares\PhpStorm Workout\iSearch\iSearch-APP\src\assets\images" />
       <recent name="D:\Softwares\PhpStorm Workout\iSearch\iSearch-APP" />
     </key>
   </component>
@@ -426,21 +407,29 @@
       <workItem from="1518110327074" duration="476000" />
       <workItem from="1518110832750" duration="5531000" />
       <workItem from="1518372711422" duration="4000" />
-      <workItem from="1518967189251" duration="7228000" />
+      <workItem from="1518967189251" duration="8308000" />
     </task>
+    <task id="LOCAL-00001" summary="Initialize UI, with 3 Main components: Header,Body, Footer">
+      <created>1518979434518</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1518979434518</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13434000" />
+    <option name="totallyTimeSpent" value="14514000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20989583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20989583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299435" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32968238" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -800,7 +789,7 @@
         <state relative-caret-position="275">
           <caret line="11" column="56" lean-forward="false" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
           <folding>
-            <element signature="e#561#567#0" expanded="true" />
+            <element signature="e#561#567#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -839,14 +828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" column="1" lean-forward="false" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -863,10 +844,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/search/search.component.html">
+    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/help/help.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="34" lean-forward="true" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -879,10 +860,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/help/help.component.html">
+    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/search/search.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="34" lean-forward="false" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+        <state relative-caret-position="25">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/header/header.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
       </provider>
