@@ -1,0 +1,18 @@
+<form [formGroup]="searchForm" (submit)="onSearch()">
+    <div class="form-row align-items-center">
+        <div class="col-10">
+            <label class="sr-only" for="searchInput">Search</label>
+            <input type="text"
+                    class="form-control mb-2"
+                    id="searchInput"
+                    placeholder="Search Here..."
+                    formControlName="search">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-success mb-2" [disabled]="!searchForm.valid">
+                <fa name="search"></fa>
+                <span>Search</span>
+            </button>
+        </div>
+    </div>
+</form>
