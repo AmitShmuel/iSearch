@@ -39,6 +39,8 @@ let parseHtml = (htmlDocument) => {
 
     // Notes To Amit: documentWords Works fine!
     // TODO: Sorting words, and keep processing words
+    // TODO: Example URL: http://www.poetry-archive.com/a/the_beacon_fires.html
+    // TODO: Another URL: http://www.poetry-archive.com/c/battle_of_the_baltic.html
 
     //console.log(`songName = ${songName}`);
     //console.log("author = " + author);

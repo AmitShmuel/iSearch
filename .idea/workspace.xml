@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7eb6e157-a207-4719-acc5-637c9e377f45" name="Default" comment="Fixing a small bug in routing">
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-WS/consts.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/iSearch-WS/package-lock.json" afterPath="$PROJECT_DIR$/iSearch-WS/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/iSearch-WS/package.json" afterPath="$PROJECT_DIR$/iSearch-WS/package.json" />
-      <change beforePath="$PROJECT_DIR$/iSearch-WS/public/css/stylesheet.css" afterPath="$PROJECT_DIR$/iSearch-WS/public/css/stylesheet.css" />
-      <change beforePath="$PROJECT_DIR$/iSearch-WS/server.js" afterPath="$PROJECT_DIR$/iSearch-WS/server.js" />
+      <change beforePath="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" afterPath="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,8 +36,8 @@
       <file leaf-file-name="adminController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="40" column="53" lean-forward="false" selection-start-line="40" selection-start-column="53" selection-end-line="40" selection-end-column="53" />
+            <state relative-caret-position="287">
+              <caret line="40" column="32" lean-forward="false" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -347,7 +341,7 @@
       <workItem from="1518372711422" duration="4000" />
       <workItem from="1518967189251" duration="10584000" />
       <workItem from="1519025144689" duration="7058000" />
-      <workItem from="1519108567647" duration="13891000" />
+      <workItem from="1519108567647" duration="14076000" />
     </task>
     <task id="LOCAL-00001" summary="Initialize UI, with 3 Main components: Header,Body, Footer">
       <created>1518979434518</created>
@@ -388,7 +382,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37739000" />
+    <option name="totallyTimeSpent" value="37924000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -850,8 +844,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="40" column="53" lean-forward="false" selection-start-line="40" selection-start-column="53" selection-end-line="40" selection-end-column="53" />
+        <state relative-caret-position="287">
+          <caret line="40" column="32" lean-forward="false" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
           <folding />
         </state>
       </provider>
