@@ -3,10 +3,8 @@ const express      = require('express'),
       bodyParser   = require('body-parser');
 
 //import routes
-const apiRoutes      = require('./routes/api');
-//      userRoutes     = require('./routes/users'),
-//      musicRoutes    = require('./routes/music'),
-//      playlistRoutes = require('./routes/playlist');
+const apiRoutes      = require('./routes/api'),
+      adminRoutes    = require('./routes/admin');
 
 const app = express();
 
@@ -34,6 +32,7 @@ app.use( (req, res, next) => {
 //app.use('/music', musicRoutes);
 //app.use('/user', userRoutes);
 app.use('/', apiRoutes);
+app.use('/admin', adminRoutes);
 
 
 //catch 404 and forward to error handler
