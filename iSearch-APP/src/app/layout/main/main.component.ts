@@ -17,6 +17,7 @@ export class MainComponent implements OnInit {
     ngOnInit() {
         this.router.events.filter(event => event instanceof NavigationEnd)
             .subscribe((event:NavigationEnd) => {
+                console.log(event);
                 this.titleText = AppRoutingModule.TITLES[event.urlAfterRedirects.slice(1)];
             });
     }

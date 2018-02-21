@@ -1,0 +1,19 @@
+aside {
+    display: inline-block;
+    height: 80vh;
+    overflow: hidden;
+    width: 20%;
+    position: relative;
+    /*float: left;*/
+    left: -1%;
+}
+
+section {
+    display: inline-block;
+    vertical-align: top;
+    /*width: 80%;*/
+}
+
+.underline {
+    text-decoration: underline;
+}

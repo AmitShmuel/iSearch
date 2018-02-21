@@ -1,0 +1,12 @@
+input[type=text] {
+    display: inline-block !important;
+    width: 85%;
+}
+
+button[disabled] {
+    cursor: not-allowed;
+}
+
+button[type=button] {
+    margin-bottom: 3px;
+}

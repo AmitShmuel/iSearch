@@ -12,6 +12,8 @@ import {AppRoutingModule} from "./app-routing.module";
 import { SearchComponent } from './search/search.component';
 import { MainComponent } from './layout/main/main.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { UploadDocumentsComponent } from './admin-panel/upload-documents/upload-documents.component';
+import { ViewDocumentsComponent } from './admin-panel/view-documents/view-documents.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import {ReactiveFormsModule} from "@angular/forms";
         HelpComponent,
         AdminPanelComponent,
         SearchComponent,
-        MainComponent
+        MainComponent,
+        UploadDocumentsComponent,
+        ViewDocumentsComponent
     ],
     imports: [
         BrowserModule,

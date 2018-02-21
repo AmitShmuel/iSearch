@@ -3,11 +3,17 @@ import {RouterModule, Routes} from "@angular/router";
 import {AdminPanelComponent} from "./admin-panel/admin-panel.component";
 import {HelpComponent} from "./help/help.component";
 import {SearchComponent} from "./search/search.component";
+import {UploadDocumentsComponent} from "./admin-panel/upload-documents/upload-documents.component";
+import {ViewDocumentsComponent} from "./admin-panel/view-documents/view-documents.component";
 
 const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/search', pathMatch: 'full'},
-    {path: 'search', component: SearchComponent, data: {title: "bla bla"} },
-    {path: 'admin-panel', component: AdminPanelComponent},
+    {path: 'search', component: SearchComponent},
+    {path: 'admin-panel', component: AdminPanelComponent, children: [
+            {path: '', redirectTo: 'upload-documents', pathMatch: 'full'},
+            {path: 'upload-documents', component: UploadDocumentsComponent},
+            {path: 'view-documents', component: ViewDocumentsComponent},
+        ]},
     {path: 'help', component: HelpComponent},
 ];
 
@@ -23,7 +29,9 @@ export class AppRoutingModule {
 
     public static TITLES = {
         "search": "Search",
-        "admin-panel": "Admin Panel",
+        "admin-panel": "Manage Files",
         "help": "Help",
+        "admin-panel/view-documents": "Manage Files: View Documents",
+        "admin-panel/upload-documents": "Manage Files: Upload Documents",
     };
 }

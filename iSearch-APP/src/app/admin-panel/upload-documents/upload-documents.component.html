@@ -1,0 +1,18 @@
+<form [formGroup]="uploadDocumentsForm" (submit)="onSubmit()">
+
+    <div formArrayName="documents">
+        <h4>Documents to upload</h4>
+        <button class="btn btn-default" type="button" (click)="onAddDocument()">Add Document</button>
+        <br>
+        <div class="form-group" *ngFor="let docCtrl of uploadDocumentsForm.get('documents').controls; let i = index">
+            <label class="col-form-label-lg">Document num {{i + 1}} -
+                <input type="text" class="form-control" [formControlName]="i">
+                <button type="button" class="btn btn-danger" (click)="onRemoveDocument(i)">X</button>
+            </label>
+        </div>
+    </div>
+    <button class="btn btn-success" type="submit"
+            [disabled]="!uploadDocumentsForm.valid">
+        Upload
+    </button>
+</form>
