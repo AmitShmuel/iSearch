@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {WebApiService} from "../../shared/web-api.service";
 
 @Component({
     selector: 'app-upload-documents',
@@ -11,7 +12,7 @@ export class UploadDocumentsComponent implements OnInit {
     uploadDocumentsForm:FormGroup;
     documentControls:FormArray;
 
-    constructor() { }
+    constructor(private webApiService:WebApiService) { }
 
     ngOnInit() {
         this.uploadDocumentsForm = new FormGroup({
@@ -19,7 +20,7 @@ export class UploadDocumentsComponent implements OnInit {
                 new FormControl(null, Validators.required)
             ]),
         });
-        this.documentControls =  (<FormArray> (this.uploadDocumentsForm.get('documents')));
+        this.documentControls = (<FormArray> (this.uploadDocumentsForm.get('documents')));
     }
 
 
@@ -29,7 +30,12 @@ export class UploadDocumentsComponent implements OnInit {
     }
 
     onSubmit() {
-
+        let documentUrls:string[] = [];
+        for(let ctrl of this.documentControls.controls) {
+            documentUrls.push(ctrl.value)
+        }
+        console.log(documentUrls);
+        this.webApiService.uploadDocuments(documentUrls);
     }
 
     onRemoveDocument(index:number) {

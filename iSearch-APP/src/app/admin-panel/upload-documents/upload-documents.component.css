@@ -10,3 +10,7 @@ button[disabled] {
 button[type=button] {
     margin-bottom: 3px;
 }
+
+form {
+    margin-bottom: 200px;
+}
