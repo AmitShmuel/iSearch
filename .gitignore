@@ -1,8 +1,4 @@
 iSearch-WS/node_modules
 iSearch-WS/keys.js
-iSearch-WS/package.json
-iSearch-WS/package-lock.json
-iSearch-APP/package.json
-iSearch-APP/package-lock.json
-.idea/workspace.xml
 Backup
+.idea/workspace.xml
