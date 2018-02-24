@@ -48,6 +48,43 @@ let parseHtml = (htmlDocument) => {
     return document;
 };
 
+function addToIndexFile(parsedDocument, indexFile, i) {
+    for (let j = 0; j < parsedDocument.words.length; j++) {
+        indexFile.push({
+            term: parsedDocument.words[j],
+            documentNumber: i,
+            hits: 1
+        });
+    }
+}
+
+function sortIndexFile(indexFile) {
+    indexFile.sort((a, b) => {
+
+        if (a.term != b.term) {
+            return (a.term < b.term) ? -1 : 1;
+        }
+        else {
+            return (a.documentNumber < b.documentNumber) ? -1 : (a.documentNumber > b.documentNumber) ? 1 : 0;
+        }
+    });
+}
+
+function removeDuplicatesAndIncrementHits(indexFile) {
+    for (let i = 0; i < indexFile.length - 1; i++) {
+        let hits = 1;
+        let j = i + 1;
+        while (indexFile[i].term === indexFile[j].term && indexFile[i].documentNumber === indexFile[j].documentNumber) {
+            hits++;
+            j++;
+        }
+        if (hits > 1) {
+            indexFile[i].hits = hits;
+            indexFile.splice(i + 1, hits - 1);
+        }
+    }
+}
+
 exports.uploadFiles = (req, res, next) => {
 
     let documents = req.body['documents'];
@@ -66,20 +103,23 @@ exports.uploadFiles = (req, res, next) => {
     Promise.all(promises)
         .then((htmlDocuments) => {
 
+            let indexFile = [];
+
             for(let i = 0; i < htmlDocuments.length; i++) {
 
                 let parsedDocument = parseHtml(htmlDocuments[i]);
                 parsedDocuments.push(parsedDocument);
 
+                addToIndexFile(parsedDocument, indexFile, i);
+
                 // TODO insert each document to the Documents collection
             }
 
-            console.log(parsedDocuments.length);
-            //TODO create a Term,Doc.# object
+            sortIndexFile(indexFile);
 
-            //TODO sort
+            removeDuplicatesAndIncrementHits(indexFile);
 
-            //TODO create a Term,Doc ID,Hits object
+            // console.log(indexFile);
 
             /*TODO insert each term to the index file collection
                 1. insert term
