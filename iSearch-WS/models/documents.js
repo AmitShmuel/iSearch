@@ -6,6 +6,7 @@ const documentSchema = new Schema({
     description: {type: String, required: true},
     songName: {type: String, required: true},
     title: {type: String, required: true},
+    isActive: {type: Boolean, required: true},
 }, {collection: 'documents'});
 
 module.exports = mongoose.model('Documents',documentSchema);

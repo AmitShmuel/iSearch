@@ -107,56 +107,68 @@ exports.uploadFiles = (req, res, next) => {
     Promise.all(promises)
         .then((htmlDocuments) => {
 
-            let indexFile = [];
+                let indexFile = [];
 
-            for(let i = 0; i < htmlDocuments.length; i++) {
+                for(let i = 0; i < htmlDocuments.length; i++) {
 
-                let parsedDocument = parseHtml(htmlDocuments[i]);
-                parsedDocuments.push(parsedDocument);
+                    let parsedDocument = parseHtml(htmlDocuments[i]);
+                    parsedDocuments.push(parsedDocument);
 
-                addToIndexFile(parsedDocument, indexFile, i);
+                    addToIndexFile(parsedDocument, indexFile, i);
 
-                // Saving in the DB
-                let documentToSave = {
-                    author: parsedDocument.author,
-                    description: parsedDocument.description,
-                    songName: parsedDocument.songName,
-                    title: parsedDocument.title,
-                };
+                    // Saving in the DB
+                    let documentToSave = {
+                        author: parsedDocument.author,
+                        description: parsedDocument.description,
+                        songName: parsedDocument.songName,
+                        title: parsedDocument.title,
+                        isActive: true, // When document upload - it will be active by default
+                    };
 
-                new Documents(documentToSave).save(
-                    (err, data) => {
-                        console.log(data);  // data is the updated document saved in DB
-                        if(err) {
-                            console.log(`err: ${err}`);
-                            res.status(500).json({"error": "internal server error, publish playlist failed"});
+                    new Documents(documentToSave).save(
+                        (err, data) => {
+                            console.log(data);  // data is the updated document saved in DB
+                            if(err) {
+                                console.log(`err: ${err}`);
+                                res.status(500).json({"error": "internal server error, publish playlist failed"});
+                            }
+                            else {
+                                console.log('Document Saved Successfully');
+                                //res.status(201).json({user: data.user, songs: data.songs});
+                            }
                         }
-                        else {
-                            console.log('Document Saved Successfully');
-                            //res.status(201).json({user: data.user, songs: data.songs});
-                        }
-                    }
-                )
+                    )
 
+                }
+
+                sortIndexFile(indexFile);
+
+                removeDuplicatesAndIncrementHits(indexFile);
+
+                // console.log(indexFile);
+
+                /*TODO insert each term to the index file collection
+                    1. insert term
+                    2. increment # of docs
+                    3. insert Location
+                        3.1 insert Doc ID
+                        3.2 insert Hits
+                        3.3 Occurrences?
+                 */
+
+                res.json({success: "Some temporary success msg"});
             }
+        );
+};
 
-            sortIndexFile(indexFile);
 
-            removeDuplicatesAndIncrementHits(indexFile);
-
-            // console.log(indexFile);
-
-            /*TODO insert each term to the index file collection
-                1. insert term
-                2. increment # of docs
-                3. insert Location
-                    3.1 insert Doc ID
-                    3.2 insert Hits
-                    3.3 Occurrences?
-             */
-
-            res.json({success: "Some temporary success msg"});
-        }
-    );
+exports.getFiles = (req, res, next) => {
+    Documents.find()
+        .then( (documents) => {
+            res.status(200).json(documents);
+        })
+        .catch( (err) => {
+            res.status(400).json({"error": `documents was not found`});
+        });
 };
 

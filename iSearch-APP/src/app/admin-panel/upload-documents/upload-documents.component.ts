@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {WebApiService} from "../../shared/web-api.service";
+import {AbstractControl} from "@angular/forms/src/model";
 
 @Component({
     selector: 'app-upload-documents',
@@ -10,7 +11,8 @@ import {WebApiService} from "../../shared/web-api.service";
 export class UploadDocumentsComponent implements OnInit {
 
     uploadDocumentsForm:FormGroup;
-    documentControls:FormArray;
+    documentFormArray:FormArray;
+    documentControls:AbstractControl[];
 
     constructor(private webApiService:WebApiService) { }
 
@@ -20,18 +22,19 @@ export class UploadDocumentsComponent implements OnInit {
                 new FormControl(null, Validators.required)
             ]),
         });
-        this.documentControls = (<FormArray> (this.uploadDocumentsForm.get('documents')));
+        this.documentFormArray = (<FormArray> (this.uploadDocumentsForm.get('documents')));
+        this.documentControls = this.documentFormArray.controls;
     }
 
 
     onAddDocument() {
         let newControl = new FormControl(null, Validators.required);
-        this.documentControls.push(newControl);
+        this.documentFormArray.push(newControl);
     }
 
     onSubmit() {
         let documentUrls:string[] = [];
-        for(let ctrl of this.documentControls.controls) {
+        for(let ctrl of this.documentControls) {
             documentUrls.push(ctrl.value)
         }
         console.log(documentUrls);
@@ -39,8 +42,8 @@ export class UploadDocumentsComponent implements OnInit {
     }
 
     onRemoveDocument(index:number) {
-        if(this.documentControls.length !== 1) {
-            this.documentControls.removeAt(index);
+        if(this.documentFormArray.length !== 1) {
+            this.documentFormArray.removeAt(index);
         }
     }
 }

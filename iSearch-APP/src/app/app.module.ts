@@ -19,6 +19,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {BlockUIModule} from "ng-block-ui";
 import { BlockUiComponent } from './shared/block-ui/block-ui.component';
 import {BlockUiService} from "./shared/block-ui/block-ui.service";
+import {ToastModule, ToastOptions} from "ng2-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CustomToastOption} from "./shared/config";
 
 
 @NgModule({
@@ -41,8 +44,14 @@ import {BlockUiService} from "./shared/block-ui/block-ui.service";
         AngularFontAwesomeModule,
         AppRoutingModule,
         BlockUIModule,
+        BrowserAnimationsModule,
+        ToastModule.forRoot(),
     ],
-    providers: [WebApiService, BlockUiService],
+    providers: [
+        WebApiService,
+        BlockUiService,
+        {provide: ToastOptions, useClass: CustomToastOption},
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

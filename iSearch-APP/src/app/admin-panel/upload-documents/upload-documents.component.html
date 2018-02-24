@@ -1,12 +1,9 @@
 <form [formGroup]="uploadDocumentsForm" (submit)="onSubmit()">
 
     <div formArrayName="documents">
-        <h4>Documents to upload</h4>
         <button class="btn btn-default" type="button" (click)="onAddDocument()">Add Document</button>
         <br>
-
-
-        <div class="form-group row"  *ngFor="let docCtrl of documentControls.controls; let i = index">
+        <div class="form-group row"  *ngFor="let docCtrl of documentControls; let i = index">
             <label [for]="'doc-' + i" class="col-2 col-form-label">Document num {{i + 1}} -</label>
             <div class="col-10">
                 <input class="form-control" type="text" [id]="'doc-' + i" [formControlName]="i">
