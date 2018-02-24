@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7eb6e157-a207-4719-acc5-637c9e377f45" name="Default" comment="Fixing a small bug in routing">
-      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/shared/block-ui/block-ui.service.ts" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/iSearch-WS/models/documents.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/package-lock.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/package.json" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.css" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.css" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.html" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.html" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/view-documents/view-documents.component.ts" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/view-documents/view-documents.component.ts" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/app.component.html" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/app.component.html" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/app.module.ts" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/app.module.ts" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/shared/consts.ts" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/shared/consts.ts" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/app/shared/web-api.service.ts" afterPath="$PROJECT_DIR$/iSearch-APP/src/app/shared/web-api.service.ts" />
-      <change beforePath="$PROJECT_DIR$/iSearch-APP/src/index.html" afterPath="$PROJECT_DIR$/iSearch-APP/src/index.html" />
       <change beforePath="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" afterPath="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,7 +25,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web-api.service.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="web-api.service.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/shared/web-api.service.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="725">
@@ -71,21 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adminController.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="adminController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="119" column="12" lean-forward="false" selection-start-line="119" selection-start-column="12" selection-end-line="119" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/iSearch-WS/server.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state relative-caret-position="350">
+              <caret line="128" column="87" lean-forward="false" selection-start-line="128" selection-start-column="87" selection-end-line="128" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -98,8 +76,8 @@
       <list>
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="TypeScript File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -162,7 +140,6 @@
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/layout/footer/footer.component.css" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.ts" />
         <option value="$PROJECT_DIR$/iSearch-WS/routes/api.js" />
-        <option value="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/view-documents/view-documents.component.ts" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.css" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/admin-panel/upload-documents/upload-documents.component.html" />
@@ -175,6 +152,8 @@
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/shared/consts.ts" />
         <option value="$PROJECT_DIR$/iSearch-APP/src/app/shared/web-api.service.ts" />
+        <option value="$PROJECT_DIR$/iSearch-WS/models/documents.js" />
+        <option value="$PROJECT_DIR$/iSearch-WS/controllers/adminController.js" />
       </list>
     </option>
   </component>
@@ -319,38 +298,6 @@
             <path>
               <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
               <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="iSearch-APP" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="iSearch-APP" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="admin-panel" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="iSearch-APP" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="admin-panel" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="upload-documents" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="iSearch-APP" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="shared" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="iSearch-WS" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -358,6 +305,12 @@
               <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="iSearch-WS" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="iSearch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="iSearch" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="iSearch-WS" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="models" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -441,7 +394,7 @@
       <workItem from="1519238640048" duration="7022000" />
       <workItem from="1519255838277" duration="27727000" />
       <workItem from="1519414449292" duration="7718000" />
-      <workItem from="1519470105692" duration="3783000" />
+      <workItem from="1519470105692" duration="5628000" />
     </task>
     <task id="LOCAL-00001" summary="Initialize UI, with 3 Main components: Header,Body, Footer">
       <created>1518979434518</created>
@@ -482,7 +435,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84249000" />
+    <option name="totallyTimeSpent" value="86094000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -529,28 +482,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js</url>
-          <line>18</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js</url>
-          <line>89</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js</url>
-          <line>47</line>
+          <line>51</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="36" />
+      <option name="time" value="37" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>parsedDocument</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>temp[indexFile[i]['term']].hasOwnProperty('hits')</expression-string>
         <language-id>JavaScript</language-id>
@@ -591,21 +538,9 @@
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>_.isArray(documents)</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/assets/.gitkeep">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/layout/footer/footer.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
@@ -856,22 +791,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iSearch-WS/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="119" column="12" lean-forward="false" selection-start-line="119" selection-start-column="12" selection-end-line="119" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/shared/block-ui/block-ui.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
@@ -917,7 +836,7 @@
         <state relative-caret-position="399">
           <caret line="22" column="29" lean-forward="false" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="29" />
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#0#50#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -938,16 +857,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/shared/block-ui/block-ui.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="16" column="51" lean-forward="false" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/shared/consts.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -963,6 +872,40 @@
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iSearch-WS/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iSearch-APP/src/app/shared/block-ui/block-ui.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="16" column="51" lean-forward="false" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iSearch-WS/models/documents.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iSearch-WS/controllers/adminController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="128" column="87" lean-forward="false" selection-start-line="128" selection-start-column="87" selection-end-line="128" selection-end-column="87" />
+          <folding />
         </state>
       </provider>
     </entry>

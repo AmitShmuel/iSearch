@@ -1,6 +1,10 @@
-//const Playlist      = require('../models/playlist');
+// Dependencies
 const request = require('request'),
       cheerio = require('cheerio');
+
+// Models
+const Documents = require('../models/documents');
+
 
 let getDocument = function (document){
 
@@ -112,7 +116,28 @@ exports.uploadFiles = (req, res, next) => {
 
                 addToIndexFile(parsedDocument, indexFile, i);
 
-                // TODO insert each document to the Documents collection
+                // Saving in the DB
+                let documentToSave = {
+                    author: parsedDocument.author,
+                    description: parsedDocument.description,
+                    songName: parsedDocument.songName,
+                    title: parsedDocument.title,
+                };
+
+                new Documents(documentToSave).save(
+                    (err, data) => {
+                        console.log(data);  // data is the updated document saved in DB
+                        if(err) {
+                            console.log(`err: ${err}`);
+                            res.status(500).json({"error": "internal server error, publish playlist failed"});
+                        }
+                        else {
+                            console.log('Document Saved Successfully');
+                            //res.status(201).json({user: data.user, songs: data.songs});
+                        }
+                    }
+                )
+
             }
 
             sortIndexFile(indexFile);
@@ -129,6 +154,8 @@ exports.uploadFiles = (req, res, next) => {
                     3.2 insert Hits
                     3.3 Occurrences?
              */
+
+            res.json({success: "Some temporary success msg"});
         }
     );
 };
