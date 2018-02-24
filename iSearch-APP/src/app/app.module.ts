@@ -15,6 +15,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { UploadDocumentsComponent } from './admin-panel/upload-documents/upload-documents.component';
 import { ViewDocumentsComponent } from './admin-panel/view-documents/view-documents.component';
 import {WebApiService} from "./shared/web-api.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {WebApiService} from "./shared/web-api.service";
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        HttpClientModule,
         AngularFontAwesomeModule,
         AppRoutingModule,
     ],
