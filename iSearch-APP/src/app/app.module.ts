@@ -16,6 +16,9 @@ import { UploadDocumentsComponent } from './admin-panel/upload-documents/upload-
 import { ViewDocumentsComponent } from './admin-panel/view-documents/view-documents.component';
 import {WebApiService} from "./shared/web-api.service";
 import {HttpClientModule} from "@angular/common/http";
+import {BlockUIModule} from "ng-block-ui";
+import { BlockUiComponent } from './shared/block-ui/block-ui.component';
+import {BlockUiService} from "./shared/block-ui/block-ui.service";
 
 
 @NgModule({
@@ -28,7 +31,8 @@ import {HttpClientModule} from "@angular/common/http";
         SearchComponent,
         MainComponent,
         UploadDocumentsComponent,
-        ViewDocumentsComponent
+        ViewDocumentsComponent,
+        BlockUiComponent
     ],
     imports: [
         BrowserModule,
@@ -36,8 +40,9 @@ import {HttpClientModule} from "@angular/common/http";
         HttpClientModule,
         AngularFontAwesomeModule,
         AppRoutingModule,
+        BlockUIModule,
     ],
-    providers: [WebApiService],
+    providers: [WebApiService, BlockUiService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

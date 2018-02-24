@@ -8,7 +8,7 @@ button[disabled] {
 }
 
 button[type=button] {
-    margin-bottom: 3px;
+    margin-bottom: 6px;
 }
 
 form {

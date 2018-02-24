@@ -4,11 +4,15 @@
         <h4>Documents to upload</h4>
         <button class="btn btn-default" type="button" (click)="onAddDocument()">Add Document</button>
         <br>
-        <div class="form-group" *ngFor="let docCtrl of uploadDocumentsForm.get('documents').controls; let i = index">
-            <label class="col-form-label-md">Document num {{i + 1}} -
-                <input type="text" class="form-control" [formControlName]="i">
+
+
+        <div class="form-group row"  *ngFor="let docCtrl of documentControls.controls; let i = index">
+            <label [for]="'doc-' + i" class="col-2 col-form-label">Document num {{i + 1}} -</label>
+            <div class="col-10">
+                <input class="form-control" type="text" [id]="'doc-' + i" [formControlName]="i">
                 <button type="button" class="btn btn-danger" (click)="onRemoveDocument(i)">X</button>
-            </label>
+
+            </div>
         </div>
     </div>
     <button class="btn btn-success" type="submit"

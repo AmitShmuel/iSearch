@@ -2,52 +2,88 @@
 const request = require('request'),
       cheerio = require('cheerio');
 
+let getDocument = function (document){
+
+    return new Promise((resolve, reject) => {
+        request(document, function (error, response, body) {
+            if(error) {
+                reject(error);
+            }
+            resolve(body);
+        })
+    });
+};
+
 let parseHtml = (htmlDocument) => {
 
     const $ = cheerio.load(htmlDocument);
 
-    //console.log($('TITLE'));
+    let document = {};
+    document.title =  $("TITLE").text();
+    document.songName = document.title.substr(0, document.title.indexOf("by") - 2);
+    document.author = document.title.substr(document.title.indexOf("by") + 3);
+    document.description = $("META[NAME='description']").attr("content").toString();
 
-    let titleString =  $("TITLE").text();
-
-    let songName = titleString.substr(0, titleString.indexOf("by") - 2);
-    let author = titleString.substr(titleString.indexOf("by") + 3);
-    let description = $("META[NAME='description']").attr("content").toString();
-    //let i = 0;
-    //for (let i = 0; i < $("DL > DT").length; i++) {
-    //
-    //}
     let songContentElement = $("DL > DT");
-    //    .each(function() {
-    //        console.log(this.text());
-    //    });
 
-    let documentWords = [];
+    document.words = [];
 
     for(let i = 0; i < songContentElement.length; i++) {
+
         let item = songContentElement[i];
 
         // getting the sentence
-        let sentence = item.children[item.children.length - 1].data.toLowerCase().replace(/\s+/g, ' ');
+        let sentence = item.children[item.children.length - 1].data;
 
-        // getting the words from a sentence
         if(sentence != null) {
-            let evaluatedSentence = sentence.match(/\b(\w+)\b/g);
-            documentWords.push(...(evaluatedSentence != null ? evaluatedSentence: []));
+            // removing unnecessary characters
+            let plainSentence = sentence.toLowerCase().replace(/\s+/g, ' ');
+
+            // getting the words from a sentence
+            let wordsInSentence = plainSentence.match(/\b(\w+)\b/g);
+            document.words.push(...(wordsInSentence != null ? wordsInSentence : []));
         }
     }
 
-    // Notes To Amit: documentWords Works fine!
-    // TODO: Sorting words, and keep processing words
-    // TODO: Example URL: http://www.poetry-archive.com/a/the_beacon_fires.html
-    // TODO: Another URL: http://www.poetry-archive.com/c/battle_of_the_baltic.html
-
-    //console.log(`songName = ${songName}`);
-    //console.log("author = " + author);
-    //console.log(`description = ${description}`);
-
-
+    return document;
 };
+
+function addToIndexFile(parsedDocument, indexFile, i) {
+    for (let j = 0; j < parsedDocument.words.length; j++) {
+        indexFile.push({
+            term: parsedDocument.words[j],
+            documentNumber: i,
+            hits: 1
+        });
+    }
+}
+
+function sortIndexFile(indexFile) {
+    indexFile.sort((a, b) => {
+
+        if (a.term != b.term) {
+            return (a.term < b.term) ? -1 : 1;
+        }
+        else {
+            return (a.documentNumber < b.documentNumber) ? -1 : (a.documentNumber > b.documentNumber) ? 1 : 0;
+        }
+    });
+}
+
+function removeDuplicatesAndIncrementHits(indexFile) {
+    for (let i = 0; i < indexFile.length - 1; i++) {
+        let hits = 1;
+        let j = i + 1;
+        while (indexFile[i].term === indexFile[j].term && indexFile[i].documentNumber === indexFile[j].documentNumber) {
+            hits++;
+            j++;
+        }
+        if (hits > 1) {
+            indexFile[i].hits = hits;
+            indexFile.splice(i + 1, hits - 1);
+        }
+    }
+}
 
 exports.uploadFiles = (req, res, next) => {
 
@@ -57,23 +93,43 @@ exports.uploadFiles = (req, res, next) => {
         res.json({error: "No documents provided"})
     }
 
-    return new Promise((resolve, reject) => {
-        request(documents[0], function (error, response, body) {
-            if(error) {
-                reject(error);
+    if(!(documents instanceof Array)) {
+        documents = new Array(documents);
+    }
+
+    let parsedDocuments = [];
+    let promises = documents.map(getDocument);
+
+    Promise.all(promises)
+        .then((htmlDocuments) => {
+
+            let indexFile = [];
+
+            for(let i = 0; i < htmlDocuments.length; i++) {
+
+                let parsedDocument = parseHtml(htmlDocuments[i]);
+                parsedDocuments.push(parsedDocument);
+
+                addToIndexFile(parsedDocument, indexFile, i);
+
+                // TODO insert each document to the Documents collection
             }
-            resolve(body);
-        });
-    }).then(
-        (htmlDocument) => {
 
-            let tmp = parseHtml(htmlDocument);
+            sortIndexFile(indexFile);
 
-            res.json({success: tmp});
-        },
-        (error) => {
-            res.json({error: error});
-        });
+            removeDuplicatesAndIncrementHits(indexFile);
 
+            // console.log(indexFile);
 
+            /*TODO insert each term to the index file collection
+                1. insert term
+                2. increment # of docs
+                3. insert Location
+                    3.1 insert Doc ID
+                    3.2 insert Hits
+                    3.3 Occurrences?
+             */
+        }
+    );
 };
+
