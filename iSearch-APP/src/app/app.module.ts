@@ -22,6 +22,7 @@ import {BlockUiService} from "./shared/block-ui/block-ui.service";
 import {ToastModule, ToastOptions} from "ng2-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CustomToastOption} from "./shared/config";
+import { ColorTextBooleanPipe } from './shared/color-text-boolean.pipe';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {CustomToastOption} from "./shared/config";
         MainComponent,
         UploadDocumentsComponent,
         ViewDocumentsComponent,
-        BlockUiComponent
+        BlockUiComponent,
+        ColorTextBooleanPipe
     ],
     imports: [
         BrowserModule,

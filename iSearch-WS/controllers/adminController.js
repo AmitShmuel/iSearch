@@ -180,3 +180,23 @@ exports.getFiles = (req, res, next) => {
         });
 };
 
+exports.toggleFile = (req, res, next) => {
+    let documentId = req.body['documentId'];
+    let active = req.body['active'];
+
+    console.log("documentId = " + documentId);
+    console.log("active = " + active);
+
+    Documents.update({_id: documentId}, {isActive: active},
+        (err) => {
+            if(err) {
+                console.log(`err: ${err}`);
+                res.status(500).json({"error": "internal server error, save playlist failed"});
+            }
+            else {
+                console.log('Document status updated');
+                res.status(201).json();
+            }
+    });
+};
+

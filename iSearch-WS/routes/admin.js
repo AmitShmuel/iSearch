@@ -7,5 +7,7 @@ router.post('/uploadFiles', adminController.uploadFiles);
 
 router.get('/getFiles', adminController.getFiles);
 
+router.patch('/toggleFile', adminController.toggleFile);
+
 
 module.exports = router;
