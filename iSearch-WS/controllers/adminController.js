@@ -13,7 +13,11 @@ let getDocument = function (document){
             if(error) {
                 reject(error);
             }
-            resolve(body);
+            let documentObj = {
+                body: body,
+                url: document
+            };
+            resolve(documentObj);
         })
     });
 };
@@ -89,6 +93,30 @@ function removeDuplicatesAndIncrementHits(indexFile) {
     }
 }
 
+function saveDocument(parsedDocument, url) {
+
+    let documentToSave = {
+        author: parsedDocument.author,
+        description: parsedDocument.description,
+        songName: parsedDocument.songName,
+        title: parsedDocument.title,
+        isActive: true, // When document upload - it will be active by default
+        url: url,
+    };
+
+    new Documents(documentToSave).save(
+        (err, data) => {
+            console.log(data);  // data is the updated document saved in DB
+            if (err) {
+                console.log(`err: ${err}`);
+            }
+            else {
+                console.log('Document Saved Successfully');
+            }
+        }
+    )
+}
+
 exports.uploadFiles = (req, res, next) => {
 
     let documents = req.body['documents'];
@@ -111,33 +139,13 @@ exports.uploadFiles = (req, res, next) => {
 
                 for(let i = 0; i < htmlDocuments.length; i++) {
 
-                    let parsedDocument = parseHtml(htmlDocuments[i]);
+                    let parsedDocument = parseHtml(htmlDocuments[i].body);
                     parsedDocuments.push(parsedDocument);
 
                     addToIndexFile(parsedDocument, indexFile, i);
 
                     // Saving in the DB
-                    let documentToSave = {
-                        author: parsedDocument.author,
-                        description: parsedDocument.description,
-                        songName: parsedDocument.songName,
-                        title: parsedDocument.title,
-                        isActive: true, // When document upload - it will be active by default
-                    };
-
-                    new Documents(documentToSave).save(
-                        (err, data) => {
-                            console.log(data);  // data is the updated document saved in DB
-                            if(err) {
-                                console.log(`err: ${err}`);
-                                res.status(500).json({"error": "internal server error, publish playlist failed"});
-                            }
-                            else {
-                                console.log('Document Saved Successfully');
-                                //res.status(201).json({user: data.user, songs: data.songs});
-                            }
-                        }
-                    )
+                    saveDocument(parsedDocument, htmlDocuments[i].url);
 
                 }
 
