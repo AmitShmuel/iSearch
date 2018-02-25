@@ -17,7 +17,7 @@
             <small>By {{doc.author}}</small>
         </div>
         <p class="mb-1">{{doc.description}}</p>
-        <button class="btn btn-primary pull-right" (click)="onToggle(i)">Make {{doc.isActive ? "Disable" : "Enable"}}</button>
+        <button class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': doc.isActive}" (click)="onToggle(i)">{{doc.isActive ? "Disable" : "Enable"}}</button>
         <small>{{doc.songName}}</small>
         <br>
         <small class="mb-2 text-success" [ngClass]="{'text-danger': !doc.isActive}">

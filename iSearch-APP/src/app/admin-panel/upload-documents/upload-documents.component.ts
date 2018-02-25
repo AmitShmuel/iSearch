@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {WebApiService} from "../../shared/web-api.service";
 import {AbstractControl} from "@angular/forms/src/model";
+import {Consts} from "../../shared/config";
 
 @Component({
     selector: 'app-upload-documents',
@@ -19,16 +20,19 @@ export class UploadDocumentsComponent implements OnInit {
     ngOnInit() {
         this.uploadDocumentsForm = new FormGroup({
             'documents': new FormArray([
-                new FormControl(null, Validators.required)
+                new FormControl(null, [
+                    Validators.required, this.validateUrl.bind(this)
+                    ])
             ]),
         });
         this.documentFormArray = (<FormArray> (this.uploadDocumentsForm.get('documents')));
         this.documentControls = this.documentFormArray.controls;
     }
 
-
     onAddDocument() {
-        let newControl = new FormControl(null, Validators.required);
+        let newControl = new FormControl(null, [
+            Validators.required, this.validateUrl.bind(this)
+        ]);
         this.documentFormArray.push(newControl);
     }
 
@@ -45,5 +49,12 @@ export class UploadDocumentsComponent implements OnInit {
         if(this.documentFormArray.length !== 1) {
             this.documentFormArray.removeAt(index);
         }
+    }
+
+    validateUrl(control:FormControl): {[s:string]: boolean} {
+        if(!(control.value && control.value.startsWith(`${Consts.SOURCE_DOCOUMENTS_URL}`))) {
+            return {'urlIsForbidden': true};
+        }
+        return null;
     }
 }
