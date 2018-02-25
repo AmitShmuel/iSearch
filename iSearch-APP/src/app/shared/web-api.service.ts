@@ -42,15 +42,6 @@ export class WebApiService {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/admin/getFiles`)
-            .finally( () => this.blockUiService.stop() )
-            .subscribe(
-                (response) => {
-                    console.log(response);
-                },
-                (error) => {
-                    console.log(error);
-                    this.toast.error(error, "Get Documents Failed");
-                }
-            );
+            .finally( () => this.blockUiService.stop() );
     }
 }

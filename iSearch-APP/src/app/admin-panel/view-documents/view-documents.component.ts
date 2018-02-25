@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {WebApiService} from "../../shared/web-api.service";
+import {ToastsManager} from "ng2-toastr";
 
 @Component({
     selector: 'app-view-documents',
@@ -8,10 +9,21 @@ import {WebApiService} from "../../shared/web-api.service";
 })
 export class ViewDocumentsComponent implements OnInit {
 
-    // TODO: Recieve document on Init
+    documents:Document[] = [];
 
-    constructor(private webApiService:WebApiService) { }
+    constructor(private webApiService:WebApiService,
+                private toast:ToastsManager) { }
 
     ngOnInit() {
+        this.webApiService.getDocuments().subscribe(
+            (documents:Document[]) => {
+                this.documents = documents;
+                console.log(this.documents);
+            },
+            (error) => {
+                console.log(error);
+                this.toast.error(error, "Get Documents Failed");
+            }
+        );
     }
 }

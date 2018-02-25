@@ -1,3 +1,22 @@
-<p>
-  view-files works!
-</p>
+<!--<ul class="list-group">-->
+    <!--<li class="list-group-item" *ngFor="let document of documents">-->
+        <!--{{}}-->
+    <!--</li>-->
+    <!--<li class="list-group-item">Cras justo odio</li>-->
+    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
+    <!--<li class="list-group-item">Morbi leo risus</li>-->
+    <!--<li class="list-group-item">Porta ac consectetur ac</li>-->
+    <!--<li class="list-group-item">Vestibulum at eros</li>-->
+<!--</ul>-->
+
+<ul class="list-group">
+    <li *ngFor="let document of documents"
+            class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{document.title}}</h5>
+            <small>By {{document.author}}</small>
+        </div>
+        <p class="mb-1">{{document.description}}</p>
+        <small>{{document.songName}}</small>
+    </li>
+</ul>
