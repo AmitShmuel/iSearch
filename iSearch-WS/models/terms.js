@@ -1,0 +1,14 @@
+const mongoose = require('mongoose'),
+      Schema = mongoose.Schema;
+
+const locationSchema = new Schema({
+    document: {type: Schema.Types.ObjectId, ref: 'Documents', required: true},
+    hits: {type: Number, required: true}
+});
+
+const termSchema = new Schema({
+    word: {type: String, required: true},
+    locations: [{type: locationSchema, required: true}],
+}, {collection: 'terms'});
+
+module.exports = mongoose.model('Terms',termSchema);
