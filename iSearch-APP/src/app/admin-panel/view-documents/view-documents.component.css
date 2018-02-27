@@ -9,3 +9,7 @@ ul {
 .toggleBtn {
     width: 100px;
 }
+
+ul li a {
+    text-decoration: underline;
+}

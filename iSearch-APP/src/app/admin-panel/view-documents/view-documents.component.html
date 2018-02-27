@@ -16,7 +16,7 @@
             <h5 class="mb-1">{{doc.title}}</h5>
             <small>By {{doc.author}}</small>
         </div>
-        <p class="mb-1">{{doc.description}}</p>
+        <p class="mb-1"><a class="text-info" target="_blank" [href]="doc.url">{{doc.description}}</a></p>
         <button class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': doc.isActive}" (click)="onToggle(i)">{{doc.isActive ? "Disable" : "Enable"}}</button>
         <small>{{doc.songName}}</small>
         <br>

@@ -12,7 +12,7 @@ const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/search', pathMatch: 'full'},
     {path: 'search', component: SearchComponent},
     {path: 'admin-panel', canActivate: [AuthService], component: AdminPanelComponent, children: [
-            {path: '', redirectTo: 'upload-documents', pathMatch: 'full'},
+            {path: '', redirectTo: 'view-documents', pathMatch: 'full'},
             {path: 'upload-documents', component: UploadDocumentsComponent},
             {path: 'view-documents', component: ViewDocumentsComponent},
         ]},
