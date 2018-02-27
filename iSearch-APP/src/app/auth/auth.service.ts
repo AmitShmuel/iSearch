@@ -3,23 +3,25 @@ import {Injectable} from "@angular/core";
 import 'rxjs/Rx';
 import {BlockUiService} from "../shared/block-ui/block-ui.service";
 import {ToastsManager} from "ng2-toastr";
-import {Router} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Consts} from "../shared/config";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
-export class AuthService {
+export class AuthService implements CanActivate {
 
-    private token;
+    token:string = null;
 
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
                 private toast:ToastsManager,
                 private router:Router) {
 
-        // Try to load token from the Local Storage
+        // Load token from the Local Storage
+        this.token = localStorage.getItem('token');
     }
 
-    login(password:string, isRememberMe:boolean) {
+    signin(password:string, isRememberMe:boolean) {
 
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
@@ -27,27 +29,50 @@ export class AuthService {
             password: password
         };
 
-        this.http.post('getToken', data)
+        this.http.post(`${Consts.WEB_SERVICE_URL}/admin/getToken`, data)
             .finally( () => this.blockUiService.stop() )
+            // .map((response:Response) => response.json())
             .subscribe(
-            (response) => {
-                console.log(response);
+            (data) => {
+                console.log(data);
 
                 // Setting the token according to response
+                this.token = data['token'];
+
                 // if isRememberMe => Saving the token in LocalStorage
+                if(isRememberMe) {
+                    localStorage.setItem('token', this.token);
+                }
 
                 this.toast.success("Login as admin succeed", "Login Succeed");
                 this.router.navigate(["/admin-panel"]);
             },
             (error) => {
                 console.log(error);
-                this.toast.error(error, "Login Failed");
+                this.toast.error(error.error, "Login Failed");
             },
 
         )
     }
 
+    signout() {
+        localStorage.clear();
+        this.token = null;
+        this.router.navigate(["/"]);
+    }
+
     isAuthenticated() {
         return this.token != null;
+    }
+
+    canActivate(route:ActivatedRouteSnapshot, state:RouterStateSnapshot)
+    : Observable<boolean> | Promise<boolean> | boolean {
+        if(!this.isAuthenticated()) {
+            this.router.navigate(["/auth"]);
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

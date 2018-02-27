@@ -6,11 +6,12 @@ import {SearchComponent} from "./search/search.component";
 import {UploadDocumentsComponent} from "./admin-panel/upload-documents/upload-documents.component";
 import {ViewDocumentsComponent} from "./admin-panel/view-documents/view-documents.component";
 import {AuthComponent} from "./auth/auth.component";
+import {AuthService} from "./auth/auth.service";
 
 const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/search', pathMatch: 'full'},
     {path: 'search', component: SearchComponent},
-    {path: 'admin-panel', component: AdminPanelComponent, children: [
+    {path: 'admin-panel', canActivate: [AuthService], component: AdminPanelComponent, children: [
             {path: '', redirectTo: 'upload-documents', pathMatch: 'full'},
             {path: 'upload-documents', component: UploadDocumentsComponent},
             {path: 'view-documents', component: ViewDocumentsComponent},

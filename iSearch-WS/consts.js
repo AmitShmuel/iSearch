@@ -1,3 +1,6 @@
-module.exports = {
-    error: "",
+
+const Consts = {
+    PASSWORD: "Admin",
 };
+
+module.exports = Consts;

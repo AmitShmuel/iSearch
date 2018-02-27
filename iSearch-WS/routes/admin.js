@@ -9,5 +9,7 @@ router.get('/getFiles', adminController.getFiles);
 
 router.patch('/toggleFile', adminController.toggleFile);
 
+router.post('/getToken', adminController.getToken);
+
 
 module.exports = router;

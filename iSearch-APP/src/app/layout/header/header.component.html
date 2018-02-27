@@ -27,6 +27,16 @@
                         <fa name="question-circle" title="Help"></fa> Help
                     </a>
                 </li>
+                <li class="nav-item" *ngIf="!isAuth()">
+                    <a class="nav-link" routerLink="/auth" [routerLinkActive]="'active'">
+                        <fa name="sign-in" title="Login"></fa> Login
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="isAuth()">
+                    <a class="nav-link" (click)="signout()">
+                        <fa name="sign-out" title="Login"></fa> Logout
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>

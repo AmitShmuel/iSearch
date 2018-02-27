@@ -1,6 +1,7 @@
 // Dependencies
 const request = require('request'),
-      cheerio = require('cheerio');
+      cheerio = require('cheerio'),
+      Consts  = require('../consts');
 
 // Models
 const Documents = require('../models/documents');
@@ -200,3 +201,12 @@ exports.toggleFile = (req, res, next) => {
     });
 };
 
+exports.getToken = (req, res, next) => {
+    let password = req.body['password'];
+    if(password === Consts.PASSWORD) {
+        res.status(201).json({"token": "321321"});
+    }
+    else {
+        res.status(401).json("Password is not correct");
+    }
+};
