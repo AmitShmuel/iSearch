@@ -11,7 +11,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import {AppRoutingModule} from "./app-routing.module";
 import { SearchComponent } from './search/search.component';
 import { MainComponent } from './layout/main/main.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { UploadDocumentsComponent } from './admin-panel/upload-documents/upload-documents.component';
 import { ViewDocumentsComponent } from './admin-panel/view-documents/view-documents.component';
 import {WebApiService} from "./shared/web-api.service";
@@ -23,6 +23,8 @@ import {ToastModule, ToastOptions} from "ng2-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CustomToastOption} from "./shared/config";
 import { ColorTextBooleanPipe } from './shared/color-text-boolean.pipe';
+import { AuthComponent } from './auth/auth.component';
+import {AuthService} from "./auth/auth.service";
 
 
 @NgModule({
@@ -37,10 +39,12 @@ import { ColorTextBooleanPipe } from './shared/color-text-boolean.pipe';
         UploadDocumentsComponent,
         ViewDocumentsComponent,
         BlockUiComponent,
-        ColorTextBooleanPipe
+        ColorTextBooleanPipe,
+        AuthComponent
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         AngularFontAwesomeModule,
@@ -52,6 +56,7 @@ import { ColorTextBooleanPipe } from './shared/color-text-boolean.pipe';
     providers: [
         WebApiService,
         BlockUiService,
+        AuthService,
         {provide: ToastOptions, useClass: CustomToastOption},
     ],
     bootstrap: [AppComponent]

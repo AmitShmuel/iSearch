@@ -5,6 +5,7 @@ import {HelpComponent} from "./help/help.component";
 import {SearchComponent} from "./search/search.component";
 import {UploadDocumentsComponent} from "./admin-panel/upload-documents/upload-documents.component";
 import {ViewDocumentsComponent} from "./admin-panel/view-documents/view-documents.component";
+import {AuthComponent} from "./auth/auth.component";
 
 const APP_ROUTES:Routes = [
     {path: '', redirectTo: '/search', pathMatch: 'full'},
@@ -15,6 +16,7 @@ const APP_ROUTES:Routes = [
             {path: 'view-documents', component: ViewDocumentsComponent},
         ]},
     {path: 'help', component: HelpComponent},
+    {path: 'auth', component: AuthComponent},
 ];
 
 @NgModule({
