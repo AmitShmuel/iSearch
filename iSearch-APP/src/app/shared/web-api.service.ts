@@ -81,4 +81,19 @@ export class WebApiService {
                 },
             );
     }
+
+    search(querySearch:string) {
+        this.blockUiService.start(Consts.BASIC_LOADING_MSG);
+
+        this.http.get(`${Consts.WEB_SERVICE_URL}/search`, {params: {querySearch: querySearch}})
+            .finally( () => this.blockUiService.stop() )
+            .subscribe(
+                (response) => {
+                    console.log(response);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
 }

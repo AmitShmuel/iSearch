@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {WebApiService} from "../shared/web-api.service";
 
 @Component({
     selector: 'app-search',
@@ -10,7 +11,7 @@ export class SearchComponent implements OnInit {
 
     searchForm:FormGroup;
 
-    constructor() { }
+    constructor(private webApiService:WebApiService) { }
 
     ngOnInit() {
         this.searchForm = new FormGroup({
@@ -19,7 +20,8 @@ export class SearchComponent implements OnInit {
     }
 
     onSearch() {
-        console.log(this.searchForm);
-        console.log("Search Clicked...");
+        let querySearch = this.searchForm.value.search;
+
+        this.webApiService.search(querySearch);
     }
 }

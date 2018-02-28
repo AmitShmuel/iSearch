@@ -4,7 +4,8 @@ const express      = require('express'),
 
 //import routes
 const apiRoutes      = require('./routes/api'),
-      adminRoutes    = require('./routes/admin');
+      adminRoutes    = require('./routes/admin'),
+      searchRoutes   = require('./routes/search');
 
 const app = express();
 
@@ -33,7 +34,7 @@ app.use( (req, res, next) => {
 //app.use('/user', userRoutes);
 app.use('/', apiRoutes);
 app.use('/admin', adminRoutes);
-
+app.use('/search', searchRoutes);
 
 //catch 404 and forward to error handler
 //app.use( (req, res, next) => {
