@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'),
+      uniqueValidator = require('mongoose-unique-validator');
       Schema = mongoose.Schema;
 
 const locationSchema = new Schema({
@@ -7,8 +8,10 @@ const locationSchema = new Schema({
 });
 
 const termSchema = new Schema({
-    word: {type: String, required: true},
+    word: {type: String, required: true, unique: true},
     locations: [{type: locationSchema, required: true}],
 }, {collection: 'terms'});
+
+termSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Terms',termSchema);
