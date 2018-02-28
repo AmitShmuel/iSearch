@@ -15,6 +15,8 @@ export class UploadDocumentsComponent implements OnInit {
     documentFormArray:FormArray;
     documentControls:AbstractControl[];
 
+    basicUrl = Consts.SOURCE_DOCOUMENTS_URL;
+
     constructor(private webApiService:WebApiService) { }
 
     ngOnInit() {
@@ -52,7 +54,7 @@ export class UploadDocumentsComponent implements OnInit {
     }
 
     validateUrl(control:FormControl): {[s:string]: boolean} {
-        if(!(control.value && control.value.startsWith(`${Consts.SOURCE_DOCOUMENTS_URL}`))) {
+        if(!(control.value && control.value.startsWith(`${Consts.SOURCE_DOCOUMENTS_URL}/`))) {
             return {'urlIsForbidden': true};
         }
         return null;
