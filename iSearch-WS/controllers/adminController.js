@@ -8,7 +8,7 @@ const Documents = require('../models/documents'),
       Terms = require('../models/terms');
 
 
-let getDocument = function (document){
+function getDocument(document) {
 
     return new Promise((resolve, reject) => {
         request(document, function (error, response, body) {
@@ -22,9 +22,9 @@ let getDocument = function (document){
             resolve(documentObj);
         })
     });
-};
+}
 
-let parseHtml = (htmlDocument) => {
+function parseHtml(htmlDocument) {
 
     const $ = cheerio.load(htmlDocument);
 
@@ -56,7 +56,7 @@ let parseHtml = (htmlDocument) => {
     }
 
     return document;
-};
+}
 
 function addToIndexFile(parsedDocument, indexFile, documentId) {
     for (let i = 0; i < parsedDocument.words.length; i++) {
@@ -107,6 +107,7 @@ function saveDocument(parsedDocument, url) {
     };
 
     return new Promise((resolve, reject) => {
+
         new Documents(documentToSave).save(
             (err, data) => {
                 if (err) {
@@ -119,6 +120,53 @@ function saveDocument(parsedDocument, url) {
         );
     });
 }
+
+function saveTerm(wordObj, documentId) {
+
+    return new Promise((resolve, reject) => {
+
+        Terms.findOneAndUpdate(
+            {word: wordObj.term},
+            {$push: {locations: {document: documentId, hits: wordObj.hits}}},
+            {upsert: true}
+        )
+        .then(result => resolve())
+        .catch(err => reject(err))
+    });
+}
+
+function createIndexFileByDocument(indexFile) {
+    let indexFileByDocument = {};
+    for (let index of indexFile) {
+        if (indexFileByDocument[index.documentId] == null) {
+            indexFileByDocument[index.documentId] = [];
+        }
+        indexFileByDocument[index.documentId].push({term: index.term, hits: index.hits});
+    }
+    return indexFileByDocument;
+}
+
+// function removeExistedDocuments(documents) {
+//     for (let i = 0; i < documents.length; i++) {
+//         new Promise((reject, resolve) => {
+//             Documents.findOne({url: documents[i]},
+//                 (err, res) => {
+//                     if(err) {
+//                         reject("error");
+//                     }
+//                     else {
+//                         if(res != null) {
+//                             documents.splice(i, 1);
+//                         }
+//                     }
+//                     promises++;
+//                 });
+//             if(promises === documents.length - 1) {
+//                 resolve(documents);
+//             }
+//         });
+//     }
+// }
 
 exports.uploadFiles = (req, res, next) => {
 
@@ -133,108 +181,67 @@ exports.uploadFiles = (req, res, next) => {
         documents = new Array(documents);
     }
 
+    //TODO: removeExistedDocuments
+    // let removeExistedDocumentsPromises = documents.map(removeExistedDocuments);
+    //
+    // Promise.all(removeExistedDocumentsPromises).then(documents => {
+    //
+    //     if(documents == null) {
+    //         res.json({error: "No documents provided"})
+    //     }
+
     let parsedDocuments = [];
     let getDocumentsPromises = documents.map(getDocument);
 
-    Promise.all(getDocumentsPromises)
-        .then((htmlDocuments) => {
+    Promise.all(getDocumentsPromises).then((htmlDocuments) => {
 
-            let indexFile = [];
+        let indexFile = [];
 
-            // let saveDocumentsPromises = htmlDocuments.map()
+        new Promise((resolve, reject) => {
+            for(let i = 0; i < htmlDocuments.length; i++) {
 
-            new Promise((resolve, reject) => {
-                for(let i = 0; i < htmlDocuments.length; i++) {
+                let parsedDocument = parseHtml(htmlDocuments[i].body);
+                parsedDocuments.push(parsedDocument);
 
-                    let parsedDocument = parseHtml(htmlDocuments[i].body);
-                    parsedDocuments.push(parsedDocument);
-
-                    // Saving in the DB
-                    saveDocument(parsedDocument, htmlDocuments[i].url)
-                        .then((documentId) => {
-                            addToIndexFile(parsedDocument, indexFile, documentId);
-                            if(i === htmlDocuments.length - 1)
-                                resolve();
-                        }).catch((err) => {
-                            console.log(err)
-                        }
-                    );
-                }
-            }).then(() => {
-                sortIndexFile(indexFile);
-                removeDuplicatesAndIncrementHits(indexFile);
-
-                let indexFileByDocument = {};
-                for(let index of indexFile) {
-                    if(indexFileByDocument[index.documentId] == null) {
-                        indexFileByDocument[index.documentId] = [];
+                // Saving in the DB
+                saveDocument(parsedDocument, htmlDocuments[i].url)
+                    .then((documentId) => {
+                        addToIndexFile(parsedDocument, indexFile, documentId);
+                        if(i === htmlDocuments.length - 1)
+                            resolve();
+                    }).catch((err) => {
+                        console.log(err)
                     }
-                    indexFileByDocument[index.documentId].push({term: index.term, hits: index.hits});
-                }
+                );
+            }
+        }).then(() => {
 
-                console.log("index length = " + indexFile.length);
-                for(let documentId of Object.keys(indexFileByDocument)) {
+            sortIndexFile(indexFile);
 
-                    for(let i = 0; i < indexFileByDocument[documentId].length; i++) {
+            removeDuplicatesAndIncrementHits(indexFile);
 
-                        new Promise((resolve, reject) => {
+            let indexFileByDocument = createIndexFileByDocument(indexFile);
 
-                            let wordObj = indexFileByDocument[documentId][i];
+            for(let documentId of Object.keys(indexFileByDocument)) {
 
-                            Terms.findOneAndUpdate(
-                                {word: wordObj.term},
-                                {$push: {locations: {document: documentId, hits: wordObj.hits}}},
-                                {upsert: false},
-                                function (error, result) {
-                                    if (error) {
-                                        console.log(`err: ${err}`);
-                                        //resolve(documentId);
-                                    }
-                                    else {
-                                        if (result == null) {
-                                            let termToSave = {
-                                                word: wordObj.term,
-                                                locations: [
-                                                    {
-                                                        document: documentId,
-                                                        hits: wordObj.hits
-                                                    }
-                                                ]
-                                            };
-                                            Terms.update({word: termToSave.word}, {$push: {locations: termToSave.locations}}, {upsert: true},
-                                                (err, data) => {
-                                                    if (err) {
-                                                        console.log(`err: ${err}`);
-                                                    }
-                                                    else {
-                                                        // console.log(data) // data is the updated document saved in DB
-                                                    }
-                                                    resolve(documentId);
-                                                }
-                                            )
-                                        }
-                                        else {
-                                            //console.log(wordObj.term + " duplcate");
-                                            resolve(documentId);
-                                        }
-                                        //console.log("i = "+ i +"\n word = " + wordObj.term);
-                                    }
-                                }
-                            );
-                        }).then((documentId) => {
-                            //i++;
-                            // console.log("i = "+ i);
-                            // console.log("resolved - " + documentId);
-                        })
-                    }
-                }
-            }).catch(function(err) {
-                console.log(err);
-            });
+                let saveTermPromises = [];
 
-            res.json({success: "Some temporary success msg"});
-        }
-    );
+                indexFileByDocument[documentId].forEach(
+                    obj => saveTermPromises.push(
+                        saveTerm(obj, documentId)
+                    )
+                );
+
+                Promise.all(saveTermPromises)
+                .then(() => console.log("saved all words from " + documentId))
+                .catch()
+            }
+        }).catch(function(err) {
+            console.log(err);
+        });
+
+        res.json({success: "Some temporary success msg"});
+    });
 };
 
 
