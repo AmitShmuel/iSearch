@@ -174,8 +174,8 @@ exports.uploadFiles = (req, res, next) => {
 
                 console.log("index length = " + indexFile.length);
                 for(let documentId of Object.keys(indexFileByDocument)) {
-                    let i = 0;
-                    while(i < indexFileByDocument[documentId].length) {
+
+                    for(let i = 0; i < indexFileByDocument[documentId].length; i++) {
 
                         new Promise((resolve, reject) => {
 
@@ -188,7 +188,7 @@ exports.uploadFiles = (req, res, next) => {
                                 function (error, result) {
                                     if (error) {
                                         console.log(`err: ${err}`);
-                                        resolve(documentId);
+                                        //resolve(documentId);
                                     }
                                     else {
                                         if (result == null) {
@@ -201,7 +201,7 @@ exports.uploadFiles = (req, res, next) => {
                                                     }
                                                 ]
                                             };
-                                            new Terms(termToSave).save(
+                                            Terms.update({word: termToSave.word}, {$push: {locations: termToSave.locations}}, {upsert: true},
                                                 (err, data) => {
                                                     if (err) {
                                                         console.log(`err: ${err}`);
@@ -214,15 +214,15 @@ exports.uploadFiles = (req, res, next) => {
                                             )
                                         }
                                         else {
-                                            console.log(wordObj.term + " duplcate");
+                                            //console.log(wordObj.term + " duplcate");
                                             resolve(documentId);
                                         }
-                                        console.log("i = "+ i +"\n word = " + wordObj.term);
+                                        //console.log("i = "+ i +"\n word = " + wordObj.term);
                                     }
                                 }
                             );
                         }).then((documentId) => {
-                            i++;
+                            //i++;
                             // console.log("i = "+ i);
                             // console.log("resolved - " + documentId);
                         })
