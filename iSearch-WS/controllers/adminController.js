@@ -36,6 +36,9 @@ function parseHtml(htmlDocument) {
 
     let songContentElement = $("DL > DT");
 
+    document.contentDescription = "";
+    let currentContentDescriptionSize = 0;
+
     document.words = [];
 
     for(let i = 0; i < songContentElement.length; i++) {
@@ -46,8 +49,14 @@ function parseHtml(htmlDocument) {
         let sentence = item.children[item.children.length - 1].data;
 
         if(sentence != null) {
+
             // removing unnecessary characters
             let plainSentence = sentence.toLowerCase().replace(/\s+/g, ' ');
+
+            if(i !== 0 && currentContentDescriptionSize < Consts.DESCRIPTION_NUM_OF_ROWS) {
+                currentContentDescriptionSize++;
+                document.contentDescription = document.contentDescription.concat(sentence.replace(/\s+/g, ' ')+"\n");
+            }
 
             // getting the words from a sentence
             let wordsInSentence = plainSentence.match(/\b(\w+)\b/g);
@@ -100,6 +109,7 @@ function saveDocument(parsedDocument, url) {
     let documentToSave = {
         author: parsedDocument.author,
         description: parsedDocument.description,
+        contentDescription: parsedDocument.contentDescription,
         songName: parsedDocument.songName,
         title: parsedDocument.title,
         isActive: true, // When document upload - it will be active by default

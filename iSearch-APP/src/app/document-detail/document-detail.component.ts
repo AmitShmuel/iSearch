@@ -11,13 +11,15 @@ import {AuthService} from "../auth/auth.service";
 export class DocumentDetailComponent implements OnInit {
 
     @Input() document:Document;
-    @Input() admin:boolean = false;
+    @Input() isAdmin:boolean = false;
+
+    content:string[] = [];
 
     constructor(private webApiService:WebApiService,
                 private authService:AuthService) { }
 
     ngOnInit() {
-
+        this.content = this.document.contentDescription.split(" \n").filter(s => s.length > 1);
     }
 
     onToggle() {

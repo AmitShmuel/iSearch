@@ -13,6 +13,10 @@
                 <fa name="search"></fa>
                 <span>Search</span>
             </button>
+            <button type="button" class="btn btn-danger mb-2" (click)="onClear()" [disabled]="documents.length === 0">
+                <fa name="eraser"></fa>
+                <span>Clear</span>
+            </button>
         </div>
     </div>
 </form>
@@ -35,4 +39,3 @@
         </div>
     </div>
 </div>
-

@@ -33,7 +33,7 @@ export class WebApiService {
                 (response) => {
                     console.log(response);
                     this.toast.success("Document uploaded & scanned successfully", "Upload Succeed");
-                    this.router.navigate(["/admin-panel/view-documents"]);
+                    this.router.navigate(["/isAdmin-panel/view-documents"]);
                 },
                 (error) => {
                     console.log(error);

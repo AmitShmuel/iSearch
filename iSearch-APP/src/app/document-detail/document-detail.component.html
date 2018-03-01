@@ -3,9 +3,14 @@
     <small>By {{document.author}}</small>
 </div>
 <p class="mb-1"><a class="text-info" target="_blank" [href]="document.url">{{document.description}}</a></p>
-<button *ngIf="admin" class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': document.isActive}" (click)="onToggle()">{{document.isActive ? "Disable" : "Enable"}}</button>
+<button *ngIf="isAdmin" class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': document.isActive}" (click)="onToggle()">{{document.isActive ? "Disable" : "Enable"}}</button>
+<ng-template [ngIf]="!isAdmin">
+    <h6 class="text text-secondary">Brief</h6>
+    <span *ngFor="let c of content; let i = index">{{c}}<br></span>
+</ng-template>
+
 <small>{{document.songName}}</small>
 <br>
-<small *ngIf="admin" class="mb-2 text-success" [ngClass]="{'text-danger': !document.isActive}">
+<small *ngIf="isAdmin" class="mb-2 text-success" [ngClass]="{'text-danger': !document.isActive}">
     Status: <span>{{document.isActive | colorTextBoolean}}</span>
 </small>

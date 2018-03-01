@@ -35,4 +35,9 @@ export class SearchComponent implements OnInit {
                 }
             );
     }
+
+    onClear() {
+        this.searchForm.reset();
+        this.documents = [];
+    }
 }
