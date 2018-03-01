@@ -5,11 +5,3 @@ li {
 ul {
     padding-bottom: 170px;
 }
-
-.toggleBtn {
-    width: 100px;
-}
-
-ul li a {
-    text-decoration: underline;
-}

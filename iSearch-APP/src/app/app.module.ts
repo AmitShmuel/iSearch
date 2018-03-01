@@ -25,6 +25,7 @@ import {CustomToastOption} from "./shared/config";
 import { ColorTextBooleanPipe } from './shared/color-text-boolean.pipe';
 import { AuthComponent } from './auth/auth.component';
 import {AuthService} from "./auth/auth.service";
+import { DocumentDetailComponent } from './document-detail/document-detail.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {AuthService} from "./auth/auth.service";
         ViewDocumentsComponent,
         BlockUiComponent,
         ColorTextBooleanPipe,
-        AuthComponent
+        AuthComponent,
+        DocumentDetailComponent
     ],
     imports: [
         BrowserModule,

@@ -1,27 +1,6 @@
-<!--<ul class="list-group">-->
-    <!--<li class="list-group-item" *ngFor="let document of documents">-->
-        <!--{{}}-->
-    <!--</li>-->
-    <!--<li class="list-group-item">Cras justo odio</li>-->
-    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
-    <!--<li class="list-group-item">Morbi leo risus</li>-->
-    <!--<li class="list-group-item">Porta ac consectetur ac</li>-->
-    <!--<li class="list-group-item">Vestibulum at eros</li>-->
-<!--</ul>-->
-
 <ul class="list-group">
-    <li *ngFor="let doc of documents; let i = index"
+    <li *ngFor="let doc of documents"
             class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{doc.title}}</h5>
-            <small>By {{doc.author}}</small>
-        </div>
-        <p class="mb-1"><a class="text-info" target="_blank" [href]="doc.url">{{doc.description}}</a></p>
-        <button class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': doc.isActive}" (click)="onToggle(i)">{{doc.isActive ? "Disable" : "Enable"}}</button>
-        <small>{{doc.songName}}</small>
-        <br>
-        <small class="mb-2 text-success" [ngClass]="{'text-danger': !doc.isActive}">
-            Status: <span>{{doc.isActive | colorTextBoolean}}</span>
-        </small>
+        <app-document-detail [document]="doc" [admin]="true"></app-document-detail>
     </li>
 </ul>

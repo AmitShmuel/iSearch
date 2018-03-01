@@ -1,0 +1,11 @@
+<div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">{{document.title}}</h5>
+    <small>By {{document.author}}</small>
+</div>
+<p class="mb-1"><a class="text-info" target="_blank" [href]="document.url">{{document.description}}</a></p>
+<button *ngIf="admin" class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': document.isActive}" (click)="onToggle()">{{document.isActive ? "Disable" : "Enable"}}</button>
+<small>{{document.songName}}</small>
+<br>
+<small *ngIf="admin" class="mb-2 text-success" [ngClass]="{'text-danger': !document.isActive}">
+    Status: <span>{{document.isActive | colorTextBoolean}}</span>
+</small>

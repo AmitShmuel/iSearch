@@ -5,7 +5,7 @@ import {BlockUiService} from "./block-ui/block-ui.service";
 import 'rxjs/Rx';
 import {ToastsManager} from "ng2-toastr";
 import {Router} from "@angular/router";
-import {Document} from "../admin-panel/document.model";
+import {Document} from "./document.model";
 import {Subject} from "rxjs/Subject";
 
 
@@ -85,15 +85,7 @@ export class WebApiService {
     search(querySearch:string) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
-        this.http.get(`${Consts.WEB_SERVICE_URL}/search`, {params: {querySearch: querySearch}})
-            .finally( () => this.blockUiService.stop() )
-            .subscribe(
-                (response) => {
-                    console.log(response);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/search`, {params: {querySearch: querySearch}})
+            .finally( () => this.blockUiService.stop() );
     }
 }

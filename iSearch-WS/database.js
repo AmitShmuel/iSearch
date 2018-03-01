@@ -22,7 +22,7 @@ conn.on('open', () => console.log('Mongoose: Connection established'));
 
 conn.on('disconnected', () => {
     console.log('Mongoose: Connection stopped, recconect');
-    mongoose.connect(keys.MLAB_KEY, options);
+    mongoose.connect(keys.MLAB_KEY);
 });
 
 conn.on('reconnected', () => console.info('Mongoose reconnected!'));
