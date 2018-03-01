@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Document} from '../shared/document.model';
+import {Document} from '../models/document.model';
 import {WebApiService} from "../shared/web-api.service";
 import {AuthService} from "../auth/auth.service";
 
@@ -12,6 +12,7 @@ export class DocumentDetailComponent implements OnInit {
 
     @Input() document:Document;
     @Input() isAdmin:boolean = false;
+    @Input() highlight:string = null;
 
     content:string[] = [];
 

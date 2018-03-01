@@ -6,7 +6,9 @@
 <button *ngIf="isAdmin" class="btn btn-success pull-right toggleBtn" [ngClass]="{'btn-danger': document.isActive}" (click)="onToggle()">{{document.isActive ? "Disable" : "Enable"}}</button>
 <ng-template [ngIf]="!isAdmin">
     <h6 class="text text-secondary">Brief</h6>
-    <span *ngFor="let c of content; let i = index">{{c}}<br></span>
+    <span *ngFor="let c of content"
+          [innerHTML]="c | highlight:highlight">
+    </span>
 </ng-template>
 
 <small>{{document.songName}}</small>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {WebApiService} from "../shared/web-api.service";
-import {Document} from "../shared/document.model";
+import {Document} from "../models/document.model";
 
 @Component({
     selector: 'app-search',
@@ -12,6 +12,7 @@ export class SearchComponent implements OnInit {
 
     searchForm:FormGroup;
     documents:Document[] = [];
+    searchString = "";
 
     constructor(private webApiService:WebApiService) { }
 
@@ -29,6 +30,7 @@ export class SearchComponent implements OnInit {
                 (response:any) => {
                     console.log(response);
                     this.documents = response;
+                    this.searchString = querySearch;
                 },
                 (error) => {
                     console.log(error);

@@ -22,10 +22,11 @@ import {BlockUiService} from "./shared/block-ui/block-ui.service";
 import {ToastModule, ToastOptions} from "ng2-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CustomToastOption} from "./shared/config";
-import { ColorTextBooleanPipe } from './shared/color-text-boolean.pipe';
+import { ColorTextBooleanPipe } from './pipes/color-text-boolean.pipe';
 import { AuthComponent } from './auth/auth.component';
 import {AuthService} from "./auth/auth.service";
 import { DocumentDetailComponent } from './document-detail/document-detail.component';
+import { HighlightPipe } from './pipes/highlight.pipe';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { DocumentDetailComponent } from './document-detail/document-detail.compo
         BlockUiComponent,
         ColorTextBooleanPipe,
         AuthComponent,
-        DocumentDetailComponent
+        DocumentDetailComponent,
+        HighlightPipe
     ],
     imports: [
         BrowserModule,

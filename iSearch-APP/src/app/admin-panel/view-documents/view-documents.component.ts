@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {WebApiService} from "../../shared/web-api.service";
 import {ToastsManager} from "ng2-toastr";
-import {Document} from "../../shared/document.model";
+import {Document} from "../../models/document.model";
 
 @Component({
     selector: 'app-view-documents',

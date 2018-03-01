@@ -33,7 +33,7 @@
             <ul class="list-group">
                 <li *ngFor="let doc of documents"
                     class="list-group-item list-group-item-action flex-column align-items-start">
-                    <app-document-detail [document]="doc"></app-document-detail>
+                    <app-document-detail [document]="doc" [highlight]="searchString"></app-document-detail>
                 </li>
             </ul>
         </div>

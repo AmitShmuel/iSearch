@@ -5,7 +5,7 @@ import {BlockUiService} from "./block-ui/block-ui.service";
 import 'rxjs/Rx';
 import {ToastsManager} from "ng2-toastr";
 import {Router} from "@angular/router";
-import {Document} from "./document.model";
+import {Document} from "../models/document.model";
 import {Subject} from "rxjs/Subject";
 
 
