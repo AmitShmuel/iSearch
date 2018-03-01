@@ -198,6 +198,7 @@ exports.uploadFiles = (req, res, next) => {
         let indexFile = [];
 
         new Promise((resolve, reject) => {
+            let counter = 0;
             for(let i = 0; i < htmlDocuments.length; i++) {
 
                 let parsedDocument = parseHtml(htmlDocuments[i].body);
@@ -207,13 +208,15 @@ exports.uploadFiles = (req, res, next) => {
                 saveDocument(parsedDocument, htmlDocuments[i].url)
                     .then((documentId) => {
                         addToIndexFile(parsedDocument, indexFile, documentId);
-                        if(i === htmlDocuments.length - 1)
-                            resolve();
+                        if(++counter === htmlDocuments.length) resolve();
+                        //if(i === htmlDocuments.length - 1)
+                        //    resolve();
                     }).catch((err) => {
                         console.log(err)
                     }
                 );
             }
+
         }).then(() => {
 
             sortIndexFile(indexFile);
