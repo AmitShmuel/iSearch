@@ -10,8 +10,8 @@ export class HighlightPipe implements PipeTransform {
         let searchArray = search.split(" ");
 
         for(let se of searchArray) {
-            let regex = new RegExp(se, 'gi');
-            // text = text.replace(regex, "<strong>" + se + "</strong>");
+            // b - for full Match word
+            let regex = new RegExp("\\b" + se + "\\b", 'gi');
             text = text.replace(regex,
                 (match, contents, offset, input_string) => {
                 return "<strong><mark>" + match + "</mark></strong>";

@@ -45,7 +45,7 @@ export class AuthService implements CanActivate {
                 }
 
                 this.toast.success("Login as isAdmin succeed", "Login Succeed");
-                this.router.navigate(["/isAdmin-panel"]);
+                this.router.navigate(["/admin-panel"]);
             },
             (error) => {
                 console.log(error);
