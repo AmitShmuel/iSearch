@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {WebApiService} from "../shared/web-api.service";
 import {Document} from "../models/document.model";
+import {ToastsManager} from "ng2-toastr";
 
 @Component({
     selector: 'app-search',
@@ -14,7 +15,8 @@ export class SearchComponent implements OnInit {
     documents:Document[] = [];
     searchString = "";
 
-    constructor(private webApiService:WebApiService) { }
+    constructor(private webApiService:WebApiService,
+                private toast:ToastsManager) { }
 
     ngOnInit() {
         this.searchForm = new FormGroup({
@@ -34,6 +36,7 @@ export class SearchComponent implements OnInit {
                 },
                 (error) => {
                     console.log(error);
+                    this.toast.error(error.error, "Query Error Syntax");
                 }
             );
     }

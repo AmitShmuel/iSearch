@@ -1,19 +1,60 @@
 // Dependencies
-const Consts  = require('../consts');
+const Consts  = require('../consts'),
+      StopList = require('../data/stoplist');
 
 // Models
 const Documents = require('../models/documents'),
       Terms = require('../models/terms');
 
+let isQuotationMarksBalanced = (text) => {
+
+    let isBalanced = true;
+
+    for(let i = 0; i < text.length; i++) {
+        if(text[i] === '\"') {
+            isBalanced = !isBalanced;
+        }
+    }
+    return isBalanced;
+};
+
+let isBetweenQuotationMarks = (word, text) => {
+
+    let indexOfWord = text.indexOf(word);
+    let startQuotationMarks;
+
+    let hasStartingQuatationMarks = false;
+
+    for(let i = 0; i < indexOfWord; i++) {
+        if(text[i] === '\"') {
+            hasStartingQuatationMarks = !hasStartingQuatationMarks;
+        }
+    }
+    return hasStartingQuatationMarks;
+
+    //let startQuatationMarks = text.indexOf("\""),
+    //    endQuotationMarks = text.indexOf("\"", startQuatationMarks + 1);
+    //
+    //if(startQuatationMarks < indexOfWord && endQuotationMarks > indexOfWord) {
+    //    return true;
+    //}
+    //return false;
+};
+
 let cleanQuerySearch = (querySearch) => {
 
-    // LowerCase the querySearch
-    querySearch = querySearch.toLowerCase();
+    let originalQuerySearch = querySearch;
 
-    // remove double spaces
-    querySearch = querySearch.replace(/ +(?= )/g,'');
+    // LowerCase && remove double spaces
+    querySearch = querySearch.toLowerCase().replace(/\s+/g, ' ');
 
-    return querySearch;
+    let wordsOnly = querySearch.match(/\b(\w+)\b/g);
+
+    // Clear words which belong to StopList && is not between " "
+    wordsOnly = wordsOnly.filter( w =>
+        !( StopList.indexOf(w) > -1 && !isBetweenQuotationMarks(w, originalQuerySearch)) );
+
+    return wordsOnly;
 };
 
 exports.search = (req, res, next) => {
@@ -21,10 +62,14 @@ exports.search = (req, res, next) => {
     // Getting the query search string
     let querySearch = req.query['querySearch'];
 
-    // Clean the query search
-    querySearch = cleanQuerySearch(querySearch);
+    // Check QuotationMarks is balanced
+    if(!isQuotationMarksBalanced(querySearch)) {
+        res.status(500).json("Quotation Marks is not balanced");
+        return;
+    }
 
-    let arrayOfWords = querySearch.split(" ");
+    // Clean the query search - Lowercase, empty spaces, Stop list...
+    let arrayOfWords = cleanQuerySearch(querySearch);
 
     Terms.find({'word': {$in: arrayOfWords}})
          .populate({path: 'locations.document', model: Documents})
