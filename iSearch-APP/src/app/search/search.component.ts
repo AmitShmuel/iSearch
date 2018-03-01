@@ -32,6 +32,9 @@ export class SearchComponent implements OnInit {
                 (response:any) => {
                     console.log(response);
                     this.documents = response;
+                    if(this.documents.length === 0) {
+                        this.toast.warning(`No result was found from ${querySearch}`, "Empty Results");
+                    }
                     this.searchString = querySearch;
                 },
                 (error) => {

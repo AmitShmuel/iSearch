@@ -21,7 +21,6 @@ let isQuotationMarksBalanced = (text) => {
 let isBetweenQuotationMarks = (word, text) => {
 
     let indexOfWord = text.indexOf(word);
-    let startQuotationMarks;
 
     let hasStartingQuatationMarks = false;
 
@@ -61,6 +60,12 @@ exports.search = (req, res, next) => {
 
     // Getting the query search string
     let querySearch = req.query['querySearch'];
+
+    // Check querySearch is not null and not empty
+    if(querySearch === null ||querySearch.length === 0 || !querySearch.trim()) {
+        res.status(500).json("Search field cannot be empty");
+        return;
+    }
 
     // Check QuotationMarks is balanced
     if(!isQuotationMarksBalanced(querySearch)) {

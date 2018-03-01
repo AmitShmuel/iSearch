@@ -13,5 +13,5 @@ export class CustomToastOption extends ToastOptions {
     newestOnTop = false;
     showCloseButton = true;
     positionClass = 'toast-bottom-left';
-    toastLife = 3000;
+    toastLife = 3500;
 }
