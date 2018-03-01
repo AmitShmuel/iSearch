@@ -33,7 +33,7 @@ app.use( (req, res, next) => {
 //app.use('/music', musicRoutes);
 //app.use('/user', userRoutes);
 app.use('/', apiRoutes);
-app.use('/isAdmin', adminRoutes);
+app.use('/admin', adminRoutes);
 app.use('/search', searchRoutes);
 
 //catch 404 and forward to error handler

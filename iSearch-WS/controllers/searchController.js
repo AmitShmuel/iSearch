@@ -75,15 +75,14 @@ exports.search = (req, res, next) => {
          .populate({path: 'locations.document', model: Documents})
          .then((docs) => {  //docs["0"]._doc.locations["5"]._doc.document._doc
             // docs => words from DB which is in the QuerySearch + Documents with FULL DATA
-            console.log(docs);
             let documents = {}; // Key => ID of the document, Value => The Document with full data
             for(let word of docs) {
                 for(let location of word._doc.locations) {
                     documents[location._doc.document._doc._id] = location._doc.document._doc
                 }
             }
-            console.log(documents);
-            res.json(Object.values(documents));
+            let documentsArray = Object.values(documents).filter(doc => doc.isActive);
+            res.json(documentsArray);
         });
 
 
