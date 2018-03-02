@@ -1,6 +1,7 @@
 // Dependencies
 const Consts  = require('../consts'),
-      StopList = require('../data/stoplist');
+      StopList = require('../data/stoplist'),
+      Soundex = require('../bl/soundex');
 
 // Models
 const Documents = require('../models/documents'),
@@ -56,6 +57,14 @@ let cleanQuerySearch = (querySearch) => {
     return wordsOnly;
 };
 
+let generateSoundexCodes = (words) => {
+    let arrayOfSoundexCodes = [];
+    for(let word of words) {
+        arrayOfSoundexCodes.push(Soundex.generateCode(word));
+    }
+    return arrayOfSoundexCodes;
+};
+
 exports.search = (req, res, next) => {
 
     // Getting the query search string
@@ -73,12 +82,14 @@ exports.search = (req, res, next) => {
         return;
     }
 
-    // Clean the query search - Lowercase, empty spaces, Stop list...
+    // Clean the query search - lowercase, empty spaces, special characters, Stop list
     let arrayOfWords = cleanQuerySearch(querySearch);
+
+    let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
 
     Terms.find({'word': {$in: arrayOfWords}})
          .populate({path: 'locations.document', model: Documents})
-         .then((docs) => {  //docs["0"]._doc.locations["5"]._doc.document._doc
+         .then((docs) => {
             // docs => words from DB which is in the QuerySearch + Documents with FULL DATA
             let documents = {}; // Key => ID of the document, Value => The Document with full data
             for(let word of docs) {
@@ -89,10 +100,4 @@ exports.search = (req, res, next) => {
             let documentsArray = Object.values(documents).filter(doc => doc.isActive);
             res.json(documentsArray);
         });
-
-
-    //TODO: Deep Dive into Searching Algorithm...
-
-
-    //res.json("Search Works");
 };

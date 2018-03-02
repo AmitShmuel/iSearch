@@ -9,6 +9,7 @@ const locationSchema = new Schema({
 
 const termSchema = new Schema({
     word: {type: String, required: true, unique: true},
+    soundexCode: {type: String, required: true},
     locations: [{type: locationSchema, required: true}],
 }, {collection: 'terms'});
 

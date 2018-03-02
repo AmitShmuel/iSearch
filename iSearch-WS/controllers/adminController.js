@@ -1,7 +1,8 @@
 // Dependencies
 const request = require('request'),
       cheerio = require('cheerio'),
-      Consts  = require('../consts');
+      Consts  = require('../consts'),
+      Soundex = require('../bl/soundex');
 
 // Models
 const Documents = require('../models/documents'),
@@ -72,7 +73,8 @@ function addToIndexFile(parsedDocument, indexFile, documentId) {
         indexFile.push({
             term: parsedDocument.words[i],
             documentId: documentId,
-            hits: 1
+            hits: 1,
+            soundexCode: Soundex.generateCode(parsedDocument.words[i]),
         });
     }
 }
@@ -136,7 +138,7 @@ function saveTerm(wordObj, documentId) {
     return new Promise((resolve, reject) => {
 
         Terms.findOneAndUpdate(
-            {word: wordObj.term},
+            {word: wordObj.term, soundexCode: wordObj.soundexCode},
             {$push: {locations: {document: documentId, hits: wordObj.hits}}},
             {upsert: true}
         )
@@ -151,7 +153,12 @@ function createIndexFileByDocument(indexFile) {
         if (indexFileByDocument[index.documentId] == null) {
             indexFileByDocument[index.documentId] = [];
         }
-        indexFileByDocument[index.documentId].push({term: index.term, hits: index.hits});
+        let indexObj = {
+            term: index.term,
+            soundexCode: index.soundexCode,
+            hits: index.hits,
+        };
+        indexFileByDocument[index.documentId].push(indexObj);
     }
     return indexFileByDocument;
 }

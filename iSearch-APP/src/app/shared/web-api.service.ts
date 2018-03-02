@@ -6,8 +6,6 @@ import 'rxjs/Rx';
 import {ToastsManager} from "ng2-toastr";
 import {Router} from "@angular/router";
 import {Document} from "../models/document.model";
-import {Subject} from "rxjs/Subject";
-
 
 @Injectable()
 export class WebApiService {
@@ -16,8 +14,6 @@ export class WebApiService {
                 private blockUiService:BlockUiService,
                 private toast:ToastsManager,
                 private router:Router) {}
-
-    documentsChanged = new Subject<Document[]>();
 
     public uploadDocuments(urls:string[]) {
 
@@ -33,7 +29,7 @@ export class WebApiService {
                 (response) => {
                     console.log(response);
                     this.toast.success("Document uploaded & scanned successfully", "Upload Succeed");
-                    this.router.navigate(["/isAdmin-panel/view-documents"]);
+                    this.router.navigate(["/admin-panel/view-documents"]);
                 },
                 (error) => {
                     console.log(error);
