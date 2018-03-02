@@ -1,6 +1,5 @@
 // Dependencies
-const Consts  = require('../consts'),
-      StopList = require('../data/stoplist'),
+const StopList = require('../data/stoplist'),
       Soundex = require('../bl/soundex');
 
 // Models
@@ -31,14 +30,6 @@ let isBetweenQuotationMarks = (word, text) => {
         }
     }
     return hasStartingQuatationMarks;
-
-    //let startQuatationMarks = text.indexOf("\""),
-    //    endQuotationMarks = text.indexOf("\"", startQuatationMarks + 1);
-    //
-    //if(startQuatationMarks < indexOfWord && endQuotationMarks > indexOfWord) {
-    //    return true;
-    //}
-    //return false;
 };
 
 let cleanQuerySearch = (querySearch) => {
@@ -69,6 +60,7 @@ exports.search = (req, res, next) => {
 
     // Getting the query search string
     let querySearch = req.query['querySearch'];
+    let isSoundexActivated = req.query['soundex'] === 'true'; // Javascript is pretty stupid
 
     // Check querySearch is not null and not empty
     if(querySearch === null ||querySearch.length === 0 || !querySearch.trim()) {
@@ -84,10 +76,19 @@ exports.search = (req, res, next) => {
 
     // Clean the query search - lowercase, empty spaces, special characters, Stop list
     let arrayOfWords = cleanQuerySearch(querySearch);
-
     let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
 
-    Terms.find({'word': {$in: arrayOfWords}})
+    let whereObject = {
+        $or: [
+            {'word': {$in: arrayOfWords}},
+        ],
+    };
+
+    if(isSoundexActivated) {
+        whereObject.$or.push({'soundexCode': {$in: arrayOfSoundexCodes}});
+    }
+
+    Terms.find(whereObject)
          .populate({path: 'locations.document', model: Documents})
          .then((docs) => {
             // docs => words from DB which is in the QuerySearch + Documents with FULL DATA

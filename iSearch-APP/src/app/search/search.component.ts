@@ -20,14 +20,16 @@ export class SearchComponent implements OnInit {
 
     ngOnInit() {
         this.searchForm = new FormGroup({
-           'search': new FormControl(null, Validators.required),
+            'search': new FormControl(null, Validators.required),
+            'isSoundex': new FormControl(false),
         });
     }
 
     onSearch() {
         let querySearch = this.searchForm.value.search;
+        let isSoundex = this.searchForm.value.isSoundex;
 
-        this.webApiService.search(querySearch)
+        this.webApiService.search(querySearch, isSoundex)
             .subscribe(
                 (response:any) => {
                     console.log(response);

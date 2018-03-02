@@ -1,5 +1,5 @@
 import {Consts} from "./config";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {BlockUiService} from "./block-ui/block-ui.service";
 import 'rxjs/Rx';
@@ -78,10 +78,14 @@ export class WebApiService {
             );
     }
 
-    search(querySearch:string) {
+    search(querySearch:string, soundex:boolean) {
         this.blockUiService.start(Consts.BASIC_LOADING_MSG);
 
-        return this.http.get(`${Consts.WEB_SERVICE_URL}/search`, {params: {querySearch: querySearch}})
+        let paramsObj = new HttpParams()
+            .append('querySearch', querySearch)
+            .append('soundex', String(soundex));
+
+        return this.http.get(`${Consts.WEB_SERVICE_URL}/search`, {params: paramsObj})
             .finally( () => this.blockUiService.stop() );
     }
 }
