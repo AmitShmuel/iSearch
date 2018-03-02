@@ -25,8 +25,10 @@ import {CustomToastOption} from "./shared/config";
 import { ColorTextBooleanPipe } from './pipes/color-text-boolean.pipe';
 import { AuthComponent } from './auth/auth.component';
 import {AuthService} from "./auth/auth.service";
-import { DocumentDetailComponent } from './document-detail/document-detail.component';
+import { DocumentDetailComponent } from './document-list/document-detail/document-detail.component';
 import { HighlightPipe } from './pipes/highlight.pipe';
+import { DocumentListComponent } from './document-list/document-list.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { HighlightPipe } from './pipes/highlight.pipe';
         ColorTextBooleanPipe,
         AuthComponent,
         DocumentDetailComponent,
-        HighlightPipe
+        HighlightPipe,
+        DocumentListComponent
     ],
     imports: [
         BrowserModule,
@@ -55,6 +58,7 @@ import { HighlightPipe } from './pipes/highlight.pipe';
         AppRoutingModule,
         BlockUIModule,
         BrowserAnimationsModule,
+        NgxPaginationModule,
         ToastModule.forRoot(),
     ],
     providers: [

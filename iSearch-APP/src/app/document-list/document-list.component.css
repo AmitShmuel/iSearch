@@ -1,0 +1,9 @@
+
+.my-pagination /deep/ .ngx-pagination .current {
+    background: #5BC0DE;
+}
+
+.my-pagination /deep/ .ngx-pagination {
+    margin-left: -50px;
+    padding-bottom: 80px;
+}

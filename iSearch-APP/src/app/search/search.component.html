@@ -41,12 +41,7 @@
 
     <div class="row">
         <div class="col-10">
-            <ul class="list-group">
-                <li *ngFor="let doc of documents"
-                    class="list-group-item list-group-item-action flex-column align-items-start">
-                    <app-document-detail [document]="doc" [highlight]="searchString"></app-document-detail>
-                </li>
-            </ul>
+            <app-document-list [documents]="documents" [highlight]="searchString"></app-document-list>
         </div>
     </div>
 </div>

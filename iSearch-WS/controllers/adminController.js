@@ -55,6 +55,7 @@ function parseHtml(htmlDocument) {
             // removing unnecessary characters
             let plainSentence = sentence.toLowerCase().replace(/\s+/g, ' ');
 
+            // creating a content-description
             if(i !== 0 && currentContentDescriptionSize < Consts.DESCRIPTION_NUM_OF_ROWS) {
                 currentContentDescriptionSize++;
                 document.contentDescription = document.contentDescription.concat(sentence.replace(/\s+/g, ' ')+"\n");

@@ -1,6 +1,4 @@
-<ul class="list-group">
-    <li *ngFor="let doc of documents"
-            class="list-group-item list-group-item-action flex-column align-items-start">
-        <app-document-detail [document]="doc" [isAdmin]="true"></app-document-detail>
-    </li>
-</ul>
+<h5 *ngIf="documents != null && documents.length === 0" class="text text-danger">No documents is in the Repository</h5>
+<ng-template [ngIf]="documents != null && documents.length !== 0">
+    <app-document-list [documents]="documents" [isAdmin]="true"></app-document-list>
+</ng-template>

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Document} from '../models/document.model';
-import {WebApiService} from "../shared/web-api.service";
-import {AuthService} from "../auth/auth.service";
+import {Document} from '../../models/document.model';
+import {WebApiService} from "../../shared/web-api.service";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
     selector: 'app-document-detail',

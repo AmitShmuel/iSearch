@@ -10,7 +10,7 @@ import {Document} from "../../models/document.model";
 })
 export class ViewDocumentsComponent implements OnInit {
 
-    documents:Document[] = [];
+    documents:Document[] = null;
 
     constructor(private webApiService:WebApiService,
                 private toast:ToastsManager) { }
@@ -19,10 +19,8 @@ export class ViewDocumentsComponent implements OnInit {
         this.webApiService.getDocuments().subscribe(
             (documents:Document[]) => {
                 this.documents = documents;
-                console.log(this.documents);
             },
             (error) => {
-                console.log(error);
                 this.toast.error(error, "Get Documents Failed");
             }
         );
