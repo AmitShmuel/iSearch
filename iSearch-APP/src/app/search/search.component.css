@@ -2,3 +2,7 @@ ul {
     padding-bottom: 170px;
 }
 
+input[type=checkbox] {
+    width: 17px;
+    height: 17px;
+}

@@ -80,7 +80,7 @@ exports.search = (req, res, next) => {
         return;
     }
 
-    // Clean the query search - lowercase, empty spaces, special characters, Stop list
+    // Clean the query search - lowercase, empty spaces, special characters, Stop list, Stemming
     let arrayOfWords = cleanQuerySearch(querySearch);
     let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
 
@@ -104,7 +104,10 @@ exports.search = (req, res, next) => {
                     documents[location._doc.document._doc._id] = location._doc.document._doc
                 }
             }
+
+            // Clearing disabled documents
             let documentsArray = Object.values(documents).filter(doc => doc.isActive);
+
             res.json(documentsArray);
         });
 };
