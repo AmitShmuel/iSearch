@@ -170,27 +170,39 @@ function createIndexFileByDocument(indexFile) {
     return indexFileByDocument;
 }
 
-// function removeExistedDocuments(documents) {
-//     for (let i = 0; i < documents.length; i++) {
-//         new Promise((reject, resolve) => {
-//             Documents.findOne({url: documents[i]},
-//                 (err, res) => {
-//                     if(err) {
-//                         reject("error");
-//                     }
-//                     else {
-//                         if(res != null) {
-//                             documents.splice(i, 1);
-//                         }
-//                     }
-//                     promises++;
-//                 });
-//             if(promises === documents.length - 1) {
-//                 resolve(documents);
-//             }
-//         });
-//     }
-// }
+function getExistedDocuments(documents) {
+
+    return new Promise((resolve, reject) => {
+        let counter = 0,
+            docsToRemoveIndexes = [];
+        for (let i = 0; i < documents.length; i++) {
+            Documents.findOne({url: documents[i]},
+                function(err, res) {
+                    if(err) {
+                        reject("error in getExistedDocuments");
+                    }
+                    else {
+                        if(res) { // document is in db
+                            docsToRemoveIndexes.push(i);
+                        }
+                    }
+                    if(++counter === documents.length) {
+                        resolve(docsToRemoveIndexes);
+                    }
+                }
+            );
+        }
+    });
+}
+
+function removeExistedDocuments(docsToRemoveIndexes, documents) {
+    docsToRemoveIndexes.sort((a, b) => {
+        return a - b
+    });
+    for (let i = docsToRemoveIndexes.length - 1; i >= 0; i--) {
+        documents.splice(docsToRemoveIndexes[i], 1);
+    }
+}
 
 exports.uploadFiles = (req, res, next) => {
 
@@ -200,75 +212,59 @@ exports.uploadFiles = (req, res, next) => {
         res.status(400).json("No documents provided")
     }
 
-    // remove if
-    if(!(documents instanceof Array)) {
-        documents = new Array(documents);
-    }
+    getExistedDocuments(documents).then((docsToRemoveIndexes) => {
 
-    //TODO: removeExistedDocuments
-    // let removeExistedDocumentsPromises = documents.map(removeExistedDocuments);
-    //
-    // Promise.all(removeExistedDocumentsPromises).then(documents => {
-    //
-    //     if(documents == null) {
-    //         res.json({error: "No documents provided"})
-    //     }
+        removeExistedDocuments(docsToRemoveIndexes, documents);
 
-    let parsedDocuments = [];
-    let getDocumentsPromises = documents.map(getDocument);
+        let parsedDocuments = [];
+        let getDocumentsPromises = documents.map(getDocument);
 
-    Promise.all(getDocumentsPromises).then((htmlDocuments) => {
+        Promise.all(getDocumentsPromises).then((htmlDocuments) => {
 
-        let indexFile = [];
+            let indexFile = [];
+            new Promise((resolve, reject) => {
+                let counter = 0;
+                for(let i = 0; i < htmlDocuments.length; i++) {
 
-        new Promise((resolve, reject) => {
-            let counter = 0;
-            for(let i = 0; i < htmlDocuments.length; i++) {
+                    let parsedDocument = parseHtml(htmlDocuments[i].body);
+                    parsedDocuments.push(parsedDocument);
 
-                let parsedDocument = parseHtml(htmlDocuments[i].body);
-                parsedDocuments.push(parsedDocument);
+                    saveDocument(parsedDocument, htmlDocuments[i].url).then((documentId) => {
 
-                // Saving in the DB
-                saveDocument(parsedDocument, htmlDocuments[i].url)
-                    .then((documentId) => {
                         addToIndexFile(parsedDocument, indexFile, documentId);
                         if(++counter === htmlDocuments.length) resolve();
-                        //if(i === htmlDocuments.length - 1)
-                        //    resolve();
-                    }).catch((err) => {
-                        console.log(err)
-                    }
-                );
-            }
 
-        }).then(() => {
+                    }).catch((err) => {console.log(err)});
+                }
+            }).then(() => {
 
-            sortIndexFile(indexFile);
+                sortIndexFile(indexFile);
 
-            removeDuplicatesAndIncrementHits(indexFile);
+                removeDuplicatesAndIncrementHits(indexFile);
 
-            let indexFileByDocument = createIndexFileByDocument(indexFile);
+                let indexFileByDocument = createIndexFileByDocument(indexFile);
 
-            for(let documentId of Object.keys(indexFileByDocument)) {
+                for(let documentId of Object.keys(indexFileByDocument)) {
 
-                let saveTermPromises = [];
+                    let saveTermPromises = [];
+                    indexFileByDocument[documentId].forEach(
+                        obj => saveTermPromises.push(
+                            saveTerm(obj, documentId)
+                        )
+                    );
 
-                indexFileByDocument[documentId].forEach(
-                    obj => saveTermPromises.push(
-                        saveTerm(obj, documentId)
-                    )
-                );
+                    Promise.all(saveTermPromises)
+                    .then()
+                    .catch()
+                }
+            }).catch(function(err) {
+                console.log(err);
+            });
 
-                Promise.all(saveTermPromises)
-                .then(() => console.log("saved all words from " + documentId))
-                .catch()
-            }
-        }).catch(function(err) {
-            console.log(err);
+            res.json({success: "Some temporary success msg"});
         });
-
-        res.json({success: "Some temporary success msg"});
-    });
+    })
+    .catch((err) => {console.log(err)});
 };
 
 

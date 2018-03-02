@@ -32,7 +32,7 @@ export class WebApiService {
             })
             .subscribe(
                 (response) => {
-                    this.toast.success("Document uploaded & scanned successfully", "Upload Succeed");
+                    this.toast.success("Document uploaded & scanned successfully", "Upload Succeeded");
                     this.router.navigate(["/admin-panel/view-documents"]);
                 },
             );
@@ -66,7 +66,7 @@ export class WebApiService {
                 (response) => {
                     doc.isActive = !doc.isActive;
                     this.getDocuments().subscribe();
-                    this.toast.success("Document switched succesfully", "Switch Succeed");
+                    this.toast.success("Document switched successfully", "Switch Succeeded");
                 },
             );
     }
