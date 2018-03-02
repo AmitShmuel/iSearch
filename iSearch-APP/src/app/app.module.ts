@@ -29,6 +29,7 @@ import { DocumentDetailComponent } from './document-list/document-detail/documen
 import { HighlightPipe } from './pipes/highlight.pipe';
 import { DocumentListComponent } from './document-list/document-list.component';
 import {NgxPaginationModule} from "ngx-pagination";
+import {ErrorHandlerService} from "./shared/error-handler.service";
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import {NgxPaginationModule} from "ngx-pagination";
         WebApiService,
         BlockUiService,
         AuthService,
+        ErrorHandlerService,
         {provide: ToastOptions, useClass: CustomToastOption},
     ],
     bootstrap: [AppComponent]

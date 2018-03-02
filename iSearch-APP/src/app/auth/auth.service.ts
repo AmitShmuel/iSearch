@@ -6,6 +6,7 @@ import {ToastsManager} from "ng2-toastr";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {Consts} from "../shared/config";
 import {Observable} from "rxjs/Observable";
+import {ErrorHandlerService} from "../shared/error-handler.service";
 
 @Injectable()
 export class AuthService implements CanActivate {
@@ -15,7 +16,8 @@ export class AuthService implements CanActivate {
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
                 private toast:ToastsManager,
-                private router:Router) {
+                private router:Router,
+                private errorHandlerService:ErrorHandlerService) {
 
         // Load token from the Local Storage
         this.token = localStorage.getItem('token');
@@ -31,26 +33,24 @@ export class AuthService implements CanActivate {
 
         this.http.post(`${Consts.WEB_SERVICE_URL}/admin/getToken`, data)
             .finally( () => this.blockUiService.stop() )
-            // .map((response:Response) => response.json())
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Login Failed");
+            })
             .subscribe(
-            (data) => {
+                (data) => {
 
-                // Setting the token according to response
-                this.token = data['token'];
+                    // Setting the token according to response
+                    this.token = data['token'];
 
-                // if isRememberMe => Saving the token in LocalStorage
-                if(isRememberMe) {
-                    localStorage.setItem('token', this.token);
-                }
+                    // if isRememberMe => Saving the token in LocalStorage
+                    if(isRememberMe) {
+                        localStorage.setItem('token', this.token);
+                    }
 
-                this.toast.success("Login as admin succeed", "Login Succeed");
-                this.router.navigate(["/admin-panel"]);
-            },
-            (error) => {
-                this.toast.error(error.error, "Login Failed");
-            },
-
-        )
+                    this.toast.success("Login as admin succeed", "Login Succeed");
+                    this.router.navigate(["/admin-panel"]);
+                },
+            );
     }
 
     signout() {
@@ -69,8 +69,6 @@ export class AuthService implements CanActivate {
             this.router.navigate(["/auth"]);
             return false;
         }
-        else {
-            return true;
-        }
+        return true;
     }
 }

@@ -197,7 +197,7 @@ exports.uploadFiles = (req, res, next) => {
     let documents = req.body['documents'];
 
     if(documents == null) {
-        res.json({error: "No documents provided"})
+        res.status(400).json("No documents provided")
     }
 
     // remove if
@@ -278,7 +278,7 @@ exports.getFiles = (req, res, next) => {
             res.status(200).json(documents);
         })
         .catch( (err) => {
-            res.status(400).json({"error": `documents was not found`});
+            res.status(500).json("Get Documents Error");
         });
 };
 
@@ -290,7 +290,7 @@ exports.toggleFile = (req, res, next) => {
         (err) => {
             if(err) {
                 console.log(`err: ${err}`);
-                res.status(500).json({"error": "internal server error, save playlist failed"});
+                res.status(500).json("Save Document failed");
             }
             else {
                 res.status(201).json();

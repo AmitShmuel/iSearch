@@ -37,10 +37,6 @@ export class SearchComponent implements OnInit {
                         this.toast.warning(`No result was found from ${querySearch}`, "Empty Results");
                     }
                     this.searchString = querySearch;
-                },
-                (error) => {
-                    console.log(error);
-                    this.toast.error(error.error, "Query Error Syntax");
                 }
             );
     }

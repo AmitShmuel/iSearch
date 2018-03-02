@@ -6,6 +6,7 @@ import 'rxjs/Rx';
 import {ToastsManager} from "ng2-toastr";
 import {Router} from "@angular/router";
 import {Document} from "../models/document.model";
+import {ErrorHandlerService} from "./error-handler.service";
 
 @Injectable()
 export class WebApiService {
@@ -13,7 +14,8 @@ export class WebApiService {
     constructor(private http:HttpClient,
                 private blockUiService:BlockUiService,
                 private toast:ToastsManager,
-                private router:Router) {}
+                private router:Router,
+                private errorHandlerService:ErrorHandlerService) {}
 
     public uploadDocuments(urls:string[]) {
 
@@ -25,14 +27,13 @@ export class WebApiService {
 
         this.http.post(`${Consts.WEB_SERVICE_URL}/admin/uploadFiles`, data)
             .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Upload Failed");
+            })
             .subscribe(
                 (response) => {
                     this.toast.success("Document uploaded & scanned successfully", "Upload Succeed");
                     this.router.navigate(["/admin-panel/view-documents"]);
-                },
-                (error) => {
-                    console.log(error);
-                    this.toast.error(error, "Upload Failed");
                 },
             );
     }
@@ -43,6 +44,9 @@ export class WebApiService {
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/admin/getFiles`)
             .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Get documents Failed");
+            })
     }
 
     toggleDocumentStatus(doc:Document) {
@@ -55,15 +59,14 @@ export class WebApiService {
 
         this.http.patch(`${Consts.WEB_SERVICE_URL}/admin/toggleFile`, data)
             .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Switch Failed");
+            })
             .subscribe(
                 (response) => {
                     doc.isActive = !doc.isActive;
                     this.getDocuments().subscribe();
                     this.toast.success("Document switched succesfully", "Switch Succeed");
-                },
-                (error) => {
-                    console.log(error);
-                    this.toast.error(error, "Switch Failed");
                 },
             );
     }
@@ -76,6 +79,9 @@ export class WebApiService {
             .append('soundex', String(soundex));
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/search`, {params: paramsObj})
-            .finally( () => this.blockUiService.stop() );
+            .finally( () => this.blockUiService.stop() )
+            .catch(error => {
+                return this.errorHandlerService.handleHttpRequest(error, "Query Error");
+            });
     }
 }
