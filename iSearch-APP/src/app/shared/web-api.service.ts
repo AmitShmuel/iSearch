@@ -27,7 +27,6 @@ export class WebApiService {
             .finally( () => this.blockUiService.stop() )
             .subscribe(
                 (response) => {
-                    console.log(response);
                     this.toast.success("Document uploaded & scanned successfully", "Upload Succeed");
                     this.router.navigate(["/admin-panel/view-documents"]);
                 },
@@ -44,15 +43,6 @@ export class WebApiService {
 
         return this.http.get(`${Consts.WEB_SERVICE_URL}/admin/getFiles`)
             .finally( () => this.blockUiService.stop() )
-            // .subscribe(
-            //         (documents:Document[]) => {
-            //              return documents;
-            //         },
-            //         (error) => {
-            //             console.log(error);
-            //             this.toast.error(error, "Get Documents Failed");
-            //         }
-            // );
     }
 
     toggleDocumentStatus(doc:Document) {

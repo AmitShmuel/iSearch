@@ -34,7 +34,6 @@ export class AuthService implements CanActivate {
             // .map((response:Response) => response.json())
             .subscribe(
             (data) => {
-                console.log(data);
 
                 // Setting the token according to response
                 this.token = data['token'];
@@ -44,11 +43,10 @@ export class AuthService implements CanActivate {
                     localStorage.setItem('token', this.token);
                 }
 
-                this.toast.success("Login as isAdmin succeed", "Login Succeed");
+                this.toast.success("Login as admin succeed", "Login Succeed");
                 this.router.navigate(["/admin-panel"]);
             },
             (error) => {
-                console.log(error);
                 this.toast.error(error.error, "Login Failed");
             },
 

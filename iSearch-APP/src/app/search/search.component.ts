@@ -32,7 +32,6 @@ export class SearchComponent implements OnInit {
         this.webApiService.search(querySearch, isSoundex)
             .subscribe(
                 (response:any) => {
-                    console.log(response);
                     this.documents = response;
                     if(this.documents.length === 0) {
                         this.toast.warning(`No result was found from ${querySearch}`, "Empty Results");
