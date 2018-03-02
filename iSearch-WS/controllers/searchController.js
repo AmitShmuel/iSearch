@@ -1,6 +1,7 @@
 // Dependencies
 const StopList = require('../data/stoplist'),
-      Soundex = require('../bl/soundex');
+      Soundex = require('../bl/soundex'),
+      Stemmer = require('en-stemmer');
 
 // Models
 const Documents = require('../models/documents'),
@@ -44,6 +45,11 @@ let cleanQuerySearch = (querySearch) => {
     // Clear words which belong to StopList && is not between " "
     wordsOnly = wordsOnly.filter( w =>
         !( StopList.indexOf(w) > -1 && !isBetweenQuotationMarks(w, originalQuerySearch)) );
+
+    // Stemming the words
+    for(let i = 0; i < wordsOnly.length; i++) {
+        wordsOnly[i] = Stemmer.stemmer(wordsOnly[i]);
+    }
 
     return wordsOnly;
 };

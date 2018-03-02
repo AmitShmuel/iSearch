@@ -2,7 +2,8 @@
 const request = require('request'),
       cheerio = require('cheerio'),
       Consts  = require('../consts'),
-      Soundex = require('../bl/soundex');
+      Soundex = require('../bl/soundex'),
+      Stemmer = require("en-stemmer");
 
 // Models
 const Documents = require('../models/documents'),
@@ -61,6 +62,11 @@ function parseHtml(htmlDocument) {
 
             // getting the words from a sentence
             let wordsInSentence = plainSentence.match(/\b(\w+)\b/g);
+            if(wordsInSentence != null) {
+                for(let j = 0; j < wordsInSentence.length; j++) {
+                    wordsInSentence[j] = Stemmer.stemmer(wordsInSentence[j]);
+                }
+            }
             document.words.push(...(wordsInSentence != null ? wordsInSentence : []));
         }
     }
