@@ -7,7 +7,7 @@ export class HighlightPipe implements PipeTransform {
 
     transform(text:string, search:string): any {
 
-        let searchArray = search.split(" ");
+        let searchArray = search.replace(/[^a-zA-Z ]/g, "").split(" ");
 
         for(let se of searchArray) {
             // b - for full Match word

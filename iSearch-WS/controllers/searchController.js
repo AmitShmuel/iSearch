@@ -42,13 +42,15 @@ let cleanQuerySearch = (querySearch) => {
 
     let wordsOnly = querySearch.match(/\b(\w+)\b/g);
 
-    // Clear words which belong to StopList && is not between " "
-    wordsOnly = wordsOnly.filter( w =>
-        !( StopList.indexOf(w) > -1 && !isBetweenQuotationMarks(w, originalQuerySearch)) );
+    if(wordsOnly != null) {
+        // Clear words which belong to StopList && is not between " "
+        wordsOnly = wordsOnly.filter( w =>
+            !( StopList.indexOf(w) > -1 && !isBetweenQuotationMarks(w, originalQuerySearch)) );
 
-    // Stemming the words
-    for(let i = 0; i < wordsOnly.length; i++) {
-        wordsOnly[i] = Stemmer.stemmer(wordsOnly[i]);
+        // Stemming the words
+        for(let i = 0; i < wordsOnly.length; i++) {
+            wordsOnly[i] = Stemmer.stemmer(wordsOnly[i]);
+        }
     }
 
     return wordsOnly;
@@ -69,7 +71,7 @@ exports.search = (req, res, next) => {
     let isSoundexActivated = req.query['soundex'] === 'true'; // Javascript is pretty stupid
 
     // Check querySearch is not null and not empty
-    if(querySearch === null ||querySearch.length === 0 || !querySearch.trim()) {
+    if(querySearch == null || querySearch.length === 0 || !querySearch.trim()) {
         res.status(500).json("Search field cannot be empty");
         return;
     }
@@ -82,6 +84,11 @@ exports.search = (req, res, next) => {
 
     // Clean the query search - lowercase, empty spaces, special characters, Stop list, Stemming
     let arrayOfWords = cleanQuerySearch(querySearch);
+    if(arrayOfWords == null) {
+        res.status(500).json("Search field must contain at least one word");
+        return;
+    }
+
     let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
 
     let whereObject = {
