@@ -102,18 +102,31 @@ exports.search = (req, res, next) => {
     }
 
     Terms.find(whereObject)
-         .populate({path: 'locations.document', model: Documents})
-         .then((docs) => {
+        .populate({path: 'locations.document', model: Documents})
+        .then((docs) => {
             // docs => words from DB which is in the QuerySearch + Documents with FULL DATA
             let documents = {}; // Key => ID of the document, Value => The Document with full data
+
             for(let word of docs) {
                 for(let location of word._doc.locations) {
-                    documents[location._doc.document._doc._id] = location._doc.document._doc
+                    if(documents[location._doc.document._doc._id] == null) {
+                        documents[location._doc.document._doc._id] = location._doc.document._doc;
+                        documents[location._doc.document._doc._id].words = [word._doc];
+                    }
+                    else {
+                        documents[location._doc.document._doc._id].words.push(word._doc);
+                    }
                 }
             }
 
+            // Operands start here
+            
+
             // Clearing disabled documents
             let documentsArray = Object.values(documents).filter(doc => doc.isActive);
+
+            // Cleaning words from documents
+            documentsArray.forEach(doc => delete doc.words );
 
             res.json(documentsArray);
         });
