@@ -23,14 +23,14 @@ let isBetweenQuotationMarks = (word, text) => {
 
     let indexOfWord = text.indexOf(word);
 
-    let hasStartingQuatationMarks = false;
+    let hasStartingQuotationMarks = false;
 
     for(let i = 0; i < indexOfWord; i++) {
         if(text[i] === '\"') {
-            hasStartingQuatationMarks = !hasStartingQuatationMarks;
+            hasStartingQuotationMarks = !hasStartingQuotationMarks;
         }
     }
-    return hasStartingQuatationMarks;
+    return hasStartingQuotationMarks;
 };
 
 let cleanQuerySearch = (querySearch) => {
@@ -89,15 +89,23 @@ exports.search = (req, res, next) => {
         return;
     }
 
-    let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
-
     let whereObject = {
         $or: [
             {'word': {$in: arrayOfWords}},
         ],
+        //$and: [ // Should represent the boolean operands
+        //    {'word': {$ne:'then' }}, // NOT
+        //    //{
+        //    //    $or: [
+        //    //        {'word': {$eq: 'joy'}},
+        //    //    ],
+        //    //}
+        //
+        //],
     };
 
     if(isSoundexActivated) {
+        let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
         whereObject.$or.push({'soundexCode': {$in: arrayOfSoundexCodes}});
     }
 
@@ -109,18 +117,19 @@ exports.search = (req, res, next) => {
 
             for(let word of docs) {
                 for(let location of word._doc.locations) {
-                    if(documents[location._doc.document._doc._id] == null) {
-                        documents[location._doc.document._doc._id] = location._doc.document._doc;
-                        documents[location._doc.document._doc._id].words = [word._doc];
+                    let documendId = location._doc.document._doc._id;
+                    if(documents[documendId] == null) {
+                        documents[documendId] = location._doc.document._doc;
+                        documents[documendId].words = [word._doc];
                     }
                     else {
-                        documents[location._doc.document._doc._id].words.push(word._doc);
+                        documents[documendId].words.push(word._doc);
                     }
                 }
             }
 
-            // Operands start here
-            
+            // Operands start here (?)
+
 
             // Clearing disabled documents
             let documentsArray = Object.values(documents).filter(doc => doc.isActive);

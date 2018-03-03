@@ -1,0 +1,16 @@
+.underline {
+    text-decoration: underline;
+}
+
+small {
+    position: relative;
+    top: -10px;
+}
+
+.lastElement {
+    padding-bottom: 100px;
+}
+
+button {
+    width: 80px;
+}

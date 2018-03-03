@@ -1,0 +1,84 @@
+<div class="row" [ngClass]="{'lastElement': !isAuth()}">
+    <div class="col-10">
+        <ul>
+            <li>iSearch suggests a simple search engine through which you can easily search uploaded documents from the internet.</li>
+            <li>Use the Search button above in order to begin.</li>
+            <li>Type words you would like to search for, and hit "Enter" or press the "Search" button to the right.</li>
+        </ul>
+        <p>
+            <strong>Simple search:</strong>
+            Simply type words you're interested to find in a document, separated by "Space" characters
+            <br>
+            <strong>Advanced search:</strong>
+            Using the & (AND), | (OR), ! (NOT) Characters, you can further filter your results (! Should be used in combination).
+        </p>
+
+        <h5 class="underline text-info">Examples:</h5>
+
+        <ul>
+            <li>
+                <i>Software & engineering -</i>
+                Will yield documents containing both software and engineering.
+            </li>
+            <li>
+                <i>Software | Engineering -</i>
+                <ul>
+                    <li>Will yield documents containing Software</li>
+                    <li>Will yield documents containing Engineering</li>
+                    <li>Will yield documents containing both software and engineering</li>
+                </ul>
+            </li>
+            <li>
+                <i>Software & engineering & !design -</i>
+                Will yield documents containing both software and engineering but not the word design.
+            </li>
+        </ul>
+        <small>* All these special characters can be combined.</small>
+
+        <h5 class="underline text-info">Use Soundex button:</h5>
+        <ul>
+            <li>
+                Using this button you can look for words you are not sure about their spelling.
+            </li>
+            <li>
+                For example the word "zing" will yield documents containing the word "sing".
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="isAuth()" [ngClass]="{'lastElement': isAuth()}">
+    <div class="col-10">
+        <h2>Admin Panel</h2>
+        <p>
+            As iSearch Admin, you are capable of several operations, some can affect the system dramatically and should be well considered before used:
+        </p>
+        <ul>
+            <li>
+                <strong>Uploade documents:</strong>
+                Uploading new documents to the system's database. These documents can then appear in future searches.
+                <ol>
+                    <li>Press the "Manage Files" button above.</li>
+                    <li>On the left pane click "Upload Documents".</li>
+                    <li>In the text box, enter the URL(s) of the document(s) you wish to upload.</li>
+                    <li>Press "Upload Documents".</li>
+                </ol>
+            </li>
+            <li>
+                <strong>View documents:</strong>
+                View the system's documents.
+                <ol>
+                    <li>Press the "Manage Files" button above.</li>
+                    <li>On the left pane click "View Documents".</li>
+                </ol>
+            </li>
+            <li>
+                <strong>Disable/Enable documents:</strong>
+                In the View Documents page mentioned above, you can click the <button class="btn btn-danger">Disable</button> / <button class="btn btn-success">Enable</button> button at the right of each document.
+                <br>(Notice the Status label changes at the bottom of the document)
+                <br>A document with status "Disabled" will not appear in future searches.
+            </li>
+        </ul>
+    </div>
+</div>

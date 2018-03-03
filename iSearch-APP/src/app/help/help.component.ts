@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import {AuthService} from "../auth/auth.service";
 
 @Component({
-  selector: 'app-help',
-  templateUrl: './help.component.html',
-  styleUrls: ['./help.component.css']
+    selector: 'app-help',
+    templateUrl: './help.component.html',
+    styleUrls: ['./help.component.css']
 })
-export class HelpComponent implements OnInit {
+export class HelpComponent {
 
-  constructor() { }
+    constructor(private authService:AuthService) { }
 
-  ngOnInit() {
-  }
+    isAuth() {
+        return this.authService.isAuthenticated();
+    }
 
 }
