@@ -231,7 +231,7 @@ exports.search = (req, res, next) => {
                 resultDocuments = documents;
             }
 
-            // Operands
+            // Operators
             else {
                 let wordsObj = {};
                 for(let word of words) {
@@ -240,12 +240,8 @@ exports.search = (req, res, next) => {
                         wordsObj[word._doc.word].push(location._doc.document._doc);
                     }
                 }
-                //sort
-                //queryObj.expressions = queryObj.expressions.sort( (a,b) => {
-                //    if(a.operator === Consts.AND_SIGN) return a;
-                //    else if(? 1 : -1);
-                //
-                //});
+
+                //Sort NOT first, AND Second, OR Third
                 queryObj.expressions = _.orderBy(queryObj.expressions, ['operator'],['asc']); // Use Lodash to sort array by 'name'
 
 
