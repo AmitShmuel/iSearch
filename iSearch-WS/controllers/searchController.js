@@ -77,7 +77,11 @@ let isOperandsCorrect = (text) => {
     let tmpText = lowerCaseAndRemoveDoubleSpaces(text);
     tmpText = removeReduntdantOperators(tmpText);
 
-    return checkOperand(tmpText, Consts.NOT_SIGN)
+    let operators = text.match(/&|!|(\|)/g);
+
+    return operators == null
+        || operators[0] !== Consts.NOT_SIGN // NOT cannot be first
+        && checkOperand(tmpText, Consts.NOT_SIGN)
         && checkOperand(tmpText, Consts.OR_SIGN)
         && checkOperand(tmpText, Consts.AND_SIGN);
 };
@@ -151,6 +155,34 @@ let generateSoundexCodes = (words) => {
     return arrayOfSoundexCodes;
 };
 
+let evaluateExpressions = (expressions, operator, setOperation, resultDocuments, docsByWord) => {
+
+    for (let i = 0; i < expressions.length; i++) {
+
+        if (expressions[i].operator === operator) {
+
+            if (!('leftHandDocs' in expressions[i])) {
+                expressions[i].leftHandDocs = docsByWord[expressions[i].leftHand];
+            }
+            if (!('rightHandDocs' in expressions[i])) {
+                expressions[i].rightHandDocs = docsByWord[expressions[i].rightHand];
+            }
+
+            resultDocuments = setOperation(expressions[i].leftHandDocs, expressions[i].rightHandDocs);
+
+            if (i - 1 >= 0) {
+                expressions[i - 1].rightHandDocs = resultDocuments;
+            }
+            if (i + 1 < expressions.length) {
+                expressions[i + 1].leftHandDocs = resultDocuments;
+            }
+
+            if(operator !== Consts.OR_SIGN) expressions.splice(i, 1);
+        }
+    }
+    return resultDocuments;
+};
+
 exports.search = (req, res, next) => {
 
     // Getting the query search string
@@ -175,13 +207,6 @@ exports.search = (req, res, next) => {
         return;
     }
 
-    // Clean the query search - lowercase, empty spaces, special characters, Stop list, Stemming
-    // let arrayOfWords = cleanQuerySearch(querySearch);
-    // if(arrayOfWords == null) {
-    //     res.status(500).json("Search field must contain at least one word");
-    //     return;
-    // }
-
     let queryObj = cleanQuerySearch(querySearch);
     if(queryObj.words == null) {
         res.status(500).json("Search field must contain at least one word");
@@ -190,19 +215,8 @@ exports.search = (req, res, next) => {
 
     let whereObject = {
         $or: [
-            // {'word': {$in: arrayOfWords}},
             {'word': {$in: queryObj.words}},
         ],
-        //$and: [ // Should represent the boolean operands
-        //    //{'word': {$ne:'then' }}, // NOT
-        //    //{
-        //    //    $or: [
-        //    //        {'word': {$eq: 'joy'}},
-        //    //    ],
-        //    //}
-        //
-        ////
-        //],
     };
 
     if(isSoundexActivated) {
@@ -230,44 +244,25 @@ exports.search = (req, res, next) => {
                 }
                 resultDocuments = documents;
             }
-
-            // Operators
+            // With Operators
             else {
-                let wordsObj = {};
+                let docsByWord = {};
                 for(let word of words) {
-                    wordsObj[word._doc.word] = [];
+                    docsByWord[word._doc.word] = [];
                     for(let location of word._doc.locations) {
-                        wordsObj[word._doc.word].push(location._doc.document._doc);
+                        docsByWord[word._doc.word].push(location._doc.document._doc);
                     }
                 }
 
-                //Sort NOT first, AND Second, OR Third
-                queryObj.expressions = _.orderBy(queryObj.expressions, ['operator'],['asc']); // Use Lodash to sort array by 'name'
+                let expressions = queryObj.expressions;
 
-
-                resultDocuments = wordsObj[queryObj.expressions[0].leftHand];
-
-                for(let i = 0; i < queryObj.expressions.length; i ++) {
-                    let rightWord = queryObj.expressions[i].rightHand;
-                    let docsOfRightWord = wordsObj[rightWord];
-
-                    switch(queryObj.expressions[i].operator) {
-                        case Consts.AND_SIGN:
-                            resultDocuments = _.intersection(resultDocuments, docsOfRightWord);
-                            break;
-
-                        case Consts.OR_SIGN:
-                            resultDocuments = _.union(resultDocuments, docsOfRightWord);
-                            break;
-
-                        case Consts.NOT_SIGN:
-                            resultDocuments = _.difference(resultDocuments, docsOfRightWord);
-                            break;
-
-                        default: break;
-                    }
-                }
-            }
+                // evaluate NOT
+                resultDocuments = evaluateExpressions(expressions, Consts.NOT_SIGN, _.difference, resultDocuments, docsByWord);
+                // evaluate AND
+                resultDocuments = evaluateExpressions(expressions, Consts.AND_SIGN, _.intersection, resultDocuments, docsByWord);
+                // evaluate OR
+                resultDocuments = evaluateExpressions(expressions, Consts.OR_SIGN, _.union, resultDocuments, docsByWord);
+             }
 
             resultDocuments = Object.values(resultDocuments).filter(doc => doc.isActive);
             res.json(resultDocuments);
