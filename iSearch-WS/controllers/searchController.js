@@ -1,11 +1,15 @@
 // Dependencies
 const StopList = require('../data/stoplist'),
       Soundex = require('../bl/soundex'),
-      Stemmer = require('en-stemmer');
+      Stemmer = require('en-stemmer'),
+      Consts  = require('../consts'),
+      isLetter = require('is-letter');
 
 // Models
 const Documents = require('../models/documents'),
       Terms = require('../models/terms');
+
+let lowerCaseAndRemoveDoubleSpaces = (text) => text.toLowerCase().replace(/\s+/g, ' ');
 
 let isQuotationMarksBalanced = (text) => {
 
@@ -17,6 +21,33 @@ let isQuotationMarksBalanced = (text) => {
         }
     }
     return isBalanced;
+};
+
+let checkOperand = (text, operand) => {
+
+    let index = 0;
+    while((index = text.indexOf(operand, index)) !== -1) {
+
+        let condition = !isLetter(text[index + 1]) && !isLetter(text[index + 2]);
+        condition = operand === Consts.NOT_SIGN ?
+            condition :
+            condition || (!isLetter(text[index - 1]) && !isLetter(text[index - 2]));
+
+        if(condition) return false;
+
+        index++;
+    }
+    return true;
+};
+
+
+let isOperandsIsCorrect = (text) => {
+
+    let tmpText = lowerCaseAndRemoveDoubleSpaces(text);
+
+    return checkOperand(tmpText, Consts.NOT_SIGN)
+        && checkOperand(tmpText, Consts.OR_SIGN)
+        && checkOperand(tmpText, Consts.AND_SIGN);
 };
 
 let isBetweenQuotationMarks = (word, text) => {
@@ -38,7 +69,7 @@ let cleanQuerySearch = (querySearch) => {
     let originalQuerySearch = querySearch;
 
     // LowerCase && remove double spaces
-    querySearch = querySearch.toLowerCase().replace(/\s+/g, ' ');
+    querySearch = lowerCaseAndRemoveDoubleSpaces(querySearch);
 
     let wordsOnly = querySearch.match(/\b(\w+)\b/g);
 
@@ -82,6 +113,12 @@ exports.search = (req, res, next) => {
         return;
     }
 
+    // Check Operands is correct
+    if(!isOperandsIsCorrect(querySearch)) {
+        res.status(500).json("Operands are not correct");
+        return;
+    }
+
     // Clean the query search - lowercase, empty spaces, special characters, Stop list, Stemming
     let arrayOfWords = cleanQuerySearch(querySearch);
     if(arrayOfWords == null) {
@@ -94,13 +131,14 @@ exports.search = (req, res, next) => {
             {'word': {$in: arrayOfWords}},
         ],
         //$and: [ // Should represent the boolean operands
-        //    {'word': {$ne:'then' }}, // NOT
+        //    //{'word': {$ne:'then' }}, // NOT
         //    //{
         //    //    $or: [
         //    //        {'word': {$eq: 'joy'}},
         //    //    ],
         //    //}
         //
+        ////
         //],
     };
 
@@ -111,31 +149,42 @@ exports.search = (req, res, next) => {
 
     Terms.find(whereObject)
         .populate({path: 'locations.document', model: Documents})
-        .then((docs) => {
+        .then((words) => {
             // docs => words from DB which is in the QuerySearch + Documents with FULL DATA
             let documents = {}; // Key => ID of the document, Value => The Document with full data
 
-            for(let word of docs) {
+            for(let word of words) {
                 for(let location of word._doc.locations) {
-                    let documendId = location._doc.document._doc._id;
-                    if(documents[documendId] == null) {
-                        documents[documendId] = location._doc.document._doc;
-                        documents[documendId].words = [word._doc];
+                    let documentId = location._doc.document._doc._id;
+                    if(documents[documentId] == null) {
+                        documents[documentId] = location._doc.document._doc;
+                        //documents[documentId].words = [word._doc];
                     }
-                    else {
-                        documents[documendId].words.push(word._doc);
-                    }
+                    //else {
+                        //documents[documentId].words.push(word._doc);
+                    //}
                 }
             }
 
             // Operands start here (?)
+            // Start Test
+            let wordsObj = {};
+            for(let word of words) {
+                wordsObj[word._doc.word] = [];
+                for(let location of word._doc.locations) {
+                    wordsObj[word._doc.word].push(location._doc.document._doc._id);
+                }
+            }
 
+            
+
+            /// End of Test
 
             // Clearing disabled documents
             let documentsArray = Object.values(documents).filter(doc => doc.isActive);
 
             // Cleaning words from documents
-            documentsArray.forEach(doc => delete doc.words );
+            //documentsArray.forEach(doc => delete doc.words );
 
             res.json(documentsArray);
         });
