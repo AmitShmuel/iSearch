@@ -6,6 +6,8 @@ const Consts = {
     NOT_SIGN: '!',
     AND_SIGN: '&',
     OR_SIGN: '|',
+    OPEN_PARENTHESES: '(',
+    CLOSE_PARENTHESES: ')',
 };
 
 module.exports = Consts;

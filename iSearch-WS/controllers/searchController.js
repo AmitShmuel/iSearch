@@ -12,20 +12,6 @@ const Documents = require('../models/documents'),
 
 let lowerCaseAndRemoveDoubleSpaces = (text) => text.toLowerCase().replace(/\s+/g, ' ');
 
-let unionArrays = (x, y) => {
-    let obj = {};
-    for (let i = x.length-1; i >= 0; -- i)
-        obj[x[i]] = x[i];
-    for (let i = y.length-1; i >= 0; -- i)
-        obj[y[i]] = y[i];
-    let res = [];
-    for (let k in obj) {
-        if (obj.hasOwnProperty(k))  // <-- optional
-            res.push(obj[k]);
-    }
-    return res;
-};
-
 //TODO: not support ""
 let isQuotationMarksBalanced = (text) => {
 
@@ -39,7 +25,23 @@ let isQuotationMarksBalanced = (text) => {
     return isBalanced;
 };
 
-let removeReduntdantOperators = (text) => {
+let isParenthesesBalanced = (text) => {
+
+    let counter = 0;
+
+    for(let i = 0; i < text.length; i++) {
+        if(text[i] === Consts.OPEN_PARENTHESES) {
+            counter++;
+        }
+        if(text[i] === Consts.CLOSE_PARENTHESES) {
+            counter--;
+        }
+        if(counter < 0) return false;
+    }
+    return counter === 0;
+};
+
+let removeRedundantOperators = (text) => {
     let index = 0;
     while((index = text.indexOf(Consts.AND_SIGN, index)) !== -1) {
         let isNotOperandAfterAnd = text[index + 1] === Consts.NOT_SIGN || text[index + 2] === Consts.NOT_SIGN;
@@ -75,7 +77,7 @@ let checkOperand = (text, operand) => {
 let isOperandsCorrect = (text) => {
 
     let tmpText = lowerCaseAndRemoveDoubleSpaces(text);
-    tmpText = removeReduntdantOperators(tmpText);
+    tmpText = removeRedundantOperators(tmpText);
 
     let operators = text.match(/&|!|(\|)/g);
 
@@ -107,7 +109,7 @@ let cleanQuerySearch = (querySearch) => {
     // LowerCase && remove double spaces
     querySearch = lowerCaseAndRemoveDoubleSpaces(querySearch);
 
-    querySearch = removeReduntdantOperators(querySearch);
+    querySearch = removeRedundantOperators(querySearch);
 
 
     let expressions = [];
@@ -137,14 +139,14 @@ let cleanQuerySearch = (querySearch) => {
             !( StopList.indexOf(w) > -1 && !isBetweenQuotationMarks(w, originalQuerySearch)) );
 
         expressions = expressions.filter( e =>
-            !( wordsOnly.indexOf(e.rightHandStem) > -1) );
+            ( wordsOnly.indexOf(e.rightHand) > -1) &&
+            ( wordsOnly.indexOf(e.leftHand) > -1) );
     }
 
     return {
         words: wordsOnly,
         expressions: expressions
     }
-    // return wordsOnly;
 };
 
 let generateSoundexCodes = (words) => {
@@ -161,6 +163,7 @@ let evaluateExpressions = (expressions, operator, setOperation, resultDocuments,
 
         if (expressions[i].operator === operator) {
 
+            // On the first time, the docs are retrieved from the word in leftHand/rightHand
             if (!('leftHandDocs' in expressions[i])) {
                 expressions[i].leftHandDocs = docsByWord[expressions[i].leftHand];
             }
@@ -168,8 +171,10 @@ let evaluateExpressions = (expressions, operator, setOperation, resultDocuments,
                 expressions[i].rightHandDocs = docsByWord[expressions[i].rightHand];
             }
 
+            // Evaluate the expression with the relevant operation (intersection, union or difference)
             resultDocuments = setOperation(expressions[i].leftHandDocs, expressions[i].rightHandDocs);
 
+            // populating neighbour expressions with our new results
             if (i - 1 >= 0) {
                 expressions[i - 1].rightHandDocs = resultDocuments;
             }
@@ -177,9 +182,11 @@ let evaluateExpressions = (expressions, operator, setOperation, resultDocuments,
                 expressions[i + 1].leftHandDocs = resultDocuments;
             }
 
+            // Splicing evaluated expressions, OR is evaluated last so there is no need for splice
             if(operator !== Consts.OR_SIGN) expressions.splice(i, 1);
         }
     }
+
     return resultDocuments;
 };
 
@@ -197,9 +204,17 @@ exports.search = (req, res, next) => {
 
     // Check QuotationMarks is balanced
     if(!isQuotationMarksBalanced(querySearch)) {
-        res.status(500).json("Quotation Marks is not balanced");
+        res.status(500).json("Quotation Marks are not balanced");
         return;
     }
+
+    // Check Parentheses is balanced
+    if(!isParenthesesBalanced(querySearch)) {
+        res.status(500).json("Parentheses are not balanced");
+        return;
+    }
+    // Check if there are parentheses
+    let queryWithParentheses = querySearch.match(/\(|\)/g) != null;
 
     // Check Operands is correct
     if(!isOperandsCorrect(querySearch)) {
@@ -256,11 +271,20 @@ exports.search = (req, res, next) => {
 
                 let expressions = queryObj.expressions;
 
-                // evaluate NOT
+                // Evaluate Parentheses
+                if(queryWithParentheses) {
+                    // Evaluate NOT
+                    resultDocuments = evaluateExpressions(expressions, Consts.NOT_SIGN, _.difference, resultDocuments, docsByWord);
+                    // Evaluate AND
+                    resultDocuments = evaluateExpressions(expressions, Consts.AND_SIGN, _.intersection, resultDocuments, docsByWord);
+                    // Evaluate OR
+                    resultDocuments = evaluateExpressions(expressions, Consts.OR_SIGN, _.union, resultDocuments, docsByWord);
+                }
+                // Evaluate NOT
                 resultDocuments = evaluateExpressions(expressions, Consts.NOT_SIGN, _.difference, resultDocuments, docsByWord);
-                // evaluate AND
+                // Evaluate AND
                 resultDocuments = evaluateExpressions(expressions, Consts.AND_SIGN, _.intersection, resultDocuments, docsByWord);
-                // evaluate OR
+                // Evaluate OR
                 resultDocuments = evaluateExpressions(expressions, Consts.OR_SIGN, _.union, resultDocuments, docsByWord);
              }
 
