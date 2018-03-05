@@ -1,4 +1,5 @@
 // Dependencies
+
 const StopList = require('../data/stoplist'),
       Soundex = require('../bl/soundex'),
       Stemmer = require('en-stemmer'),
@@ -58,13 +59,13 @@ let checkOperand = (text, operand) => {
     let index = 0;
     while((index = text.indexOf(operand, index)) !== -1) {
 
-        let condition = (text[index + 1] !== '"' && !isLetter(text[index + 1]))
-            && (text[index + 2] !== '"' && !isLetter(text[index + 2]));
+        let condition = (text[index + 1] !== '(' && text[index + 1] !== '"' && !isLetter(text[index + 1]))
+            && (text[index + 2] !== '(' && text[index + 2] !== '"' && !isLetter(text[index + 2]));
 
         condition = operand === Consts.NOT_SIGN ?
             condition :
-            condition || ( ( text[index - 1] !== '"' && !isLetter(text[index - 1]) )
-            && ( text[index - 2] !== '"' && !isLetter(text[index - 2]) ) );
+            condition || ( ( text[index - 1] !== ')' && text[index - 1] !== '"' && !isLetter(text[index - 1]) )
+            && ( text[index - 2] !== ')' && text[index - 2] !== '"' && !isLetter(text[index - 2]) ) );
 
         if(condition) return false;
 
@@ -74,7 +75,7 @@ let checkOperand = (text, operand) => {
 };
 
 
-let isOperandsCorrect = (text) => {
+let isOperatorsCorrect = (text) => {
 
     let tmpText = lowerCaseAndRemoveDoubleSpaces(text);
     tmpText = removeRedundantOperators(tmpText);
@@ -102,6 +103,34 @@ let isBetweenQuotationMarks = (word, text) => {
     return hasStartingQuotationMarks;
 };
 
+let isBetweenParentheses = (querySearch, operatorPosition) => {
+    let index = 0;
+    for(let i = 0; i < operatorPosition+1; i++) {
+
+        let notIndex = querySearch.indexOf('!', index);
+        let andIndex = querySearch.indexOf('&', index);
+        let orIndex = querySearch.indexOf('|', index);
+        if(notIndex === -1) notIndex = 1000;
+        if(andIndex === -1) andIndex = 1000;
+        if(orIndex === -1) orIndex = 1000;
+        index = Math.min(notIndex, andIndex, orIndex);
+        index++;
+    }
+
+    let hasStartingParentheses = 0;
+
+    for(let i = 0; i < index-1; i++) {
+        if(querySearch[i] === Consts.OPEN_PARENTHESES) {
+            hasStartingParentheses++;
+        }
+        if(querySearch[i] === Consts.CLOSE_PARENTHESES) {
+            hasStartingParentheses--;
+        }
+    }
+
+    return hasStartingParentheses > 0;
+};
+
 let cleanQuerySearch = (querySearch) => {
 
     let originalQuerySearch = querySearch;
@@ -110,7 +139,6 @@ let cleanQuerySearch = (querySearch) => {
     querySearch = lowerCaseAndRemoveDoubleSpaces(querySearch);
 
     querySearch = removeRedundantOperators(querySearch);
-
 
     let expressions = [];
     let wordsOnly = querySearch.match(/\b(\w+)\b/g);
@@ -129,6 +157,7 @@ let cleanQuerySearch = (querySearch) => {
                 expression.operator = operatorsOnly[i];
                 expression.leftHand = wordsOnly[i];
                 expression.rightHand = wordsOnly[i + 1];
+                expression.isInsideParentheses = isBetweenParentheses(querySearch, i);
 
                 expressions.push(expression);
             }
@@ -157,11 +186,17 @@ let generateSoundexCodes = (words) => {
     return arrayOfSoundexCodes;
 };
 
-let evaluateExpressions = (expressions, operator, setOperation, resultDocuments, docsByWord) => {
+let evaluateExpressions = (withParentheses, expressions, operator, setOperation, resultDocuments, docsByWord) => {
 
+    let evaluateCondition;
     for (let i = 0; i < expressions.length; i++) {
 
-        if (expressions[i].operator === operator) {
+        evaluateCondition = expressions[i].operator === operator;
+
+        if(withParentheses) {
+            evaluateCondition &= expressions[i].isInsideParentheses;
+        }
+        if (evaluateCondition) {
 
             // On the first time, the docs are retrieved from the word in leftHand/rightHand
             if (!('leftHandDocs' in expressions[i])) {
@@ -183,9 +218,21 @@ let evaluateExpressions = (expressions, operator, setOperation, resultDocuments,
             }
 
             // Splicing evaluated expressions, OR is evaluated last so there is no need for splice
-            if(operator !== Consts.OR_SIGN) expressions.splice(i, 1);
+            if(operator !== Consts.OR_SIGN || withParentheses) expressions.splice(i, 1);
         }
     }
+
+    return resultDocuments;
+};
+
+let evaluateAllExpressions = (withParentheses, resultDocuments, expressions, docsByWord) => {
+
+    // Evaluate NOT
+    resultDocuments = evaluateExpressions(withParentheses, expressions, Consts.NOT_SIGN, _.difference, resultDocuments, docsByWord);
+    // Evaluate AND
+    resultDocuments = evaluateExpressions(withParentheses, expressions, Consts.AND_SIGN, _.intersection, resultDocuments, docsByWord);
+    // Evaluate OR
+    resultDocuments = evaluateExpressions(withParentheses, expressions, Consts.OR_SIGN, _.union, resultDocuments, docsByWord);
 
     return resultDocuments;
 };
@@ -214,11 +261,11 @@ exports.search = (req, res, next) => {
         return;
     }
     // Check if there are parentheses
-    let queryWithParentheses = querySearch.match(/\(|\)/g) != null;
+    let isQueryWithParentheses = querySearch.match(/\(|\)/g) != null;
 
-    // Check Operands is correct
-    if(!isOperandsCorrect(querySearch)) {
-        res.status(500).json("Operands are not correct");
+    // Check Operators are correct
+    if(!isOperatorsCorrect(querySearch)) {
+        res.status(500).json("Operators are not correct");
         return;
     }
 
@@ -235,7 +282,6 @@ exports.search = (req, res, next) => {
     };
 
     if(isSoundexActivated) {
-        // let arrayOfSoundexCodes = generateSoundexCodes(arrayOfWords);
         let arrayOfSoundexCodes = generateSoundexCodes(queryObj.words);
         whereObject.$or.push({'soundexCode': {$in: arrayOfSoundexCodes}});
     }
@@ -272,21 +318,11 @@ exports.search = (req, res, next) => {
                 let expressions = queryObj.expressions;
 
                 // Evaluate Parentheses
-                if(queryWithParentheses) {
-                    // Evaluate NOT
-                    resultDocuments = evaluateExpressions(expressions, Consts.NOT_SIGN, _.difference, resultDocuments, docsByWord);
-                    // Evaluate AND
-                    resultDocuments = evaluateExpressions(expressions, Consts.AND_SIGN, _.intersection, resultDocuments, docsByWord);
-                    // Evaluate OR
-                    resultDocuments = evaluateExpressions(expressions, Consts.OR_SIGN, _.union, resultDocuments, docsByWord);
+                if(isQueryWithParentheses) {
+                    resultDocuments = evaluateAllExpressions(true, resultDocuments, expressions, docsByWord);
                 }
-                // Evaluate NOT
-                resultDocuments = evaluateExpressions(expressions, Consts.NOT_SIGN, _.difference, resultDocuments, docsByWord);
-                // Evaluate AND
-                resultDocuments = evaluateExpressions(expressions, Consts.AND_SIGN, _.intersection, resultDocuments, docsByWord);
-                // Evaluate OR
-                resultDocuments = evaluateExpressions(expressions, Consts.OR_SIGN, _.union, resultDocuments, docsByWord);
-             }
+                resultDocuments = evaluateAllExpressions(false, resultDocuments, expressions, docsByWord);
+            }
 
             resultDocuments = Object.values(resultDocuments).filter(doc => doc.isActive);
             res.json(resultDocuments);
