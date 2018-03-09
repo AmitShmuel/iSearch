@@ -1,5 +1,5 @@
 /**
- * @project WS for POPZIT
+ * @project WS for iSearch
  * @author Yoav Saroya & Amit Shmuel
  * @licence Shenkar college
  */

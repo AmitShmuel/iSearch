@@ -13,8 +13,7 @@ const Documents = require('../models/documents'),
 
 let lowerCaseAndRemoveDoubleSpaces = (text) => text.toLowerCase().replace(/\s+/g, ' ');
 
-//TODO: not support ""
-let isQuotationMarksBalanced = (text) => {
+ isQuotationMarksBalanced = (text) => {
 
     let isBalanced = true;
 
@@ -218,7 +217,10 @@ let evaluateExpressions = (withParentheses, expressions, operator, setOperation,
             }
 
             // Splicing evaluated expressions, OR is evaluated last so there is no need for splice
-            if(operator !== Consts.OR_SIGN || withParentheses) expressions.splice(i, 1);
+            if(operator !== Consts.OR_SIGN || withParentheses) {
+                expressions.splice(i, 1);
+                i--;
+            }
         }
     }
 
