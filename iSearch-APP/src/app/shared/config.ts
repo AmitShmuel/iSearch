@@ -3,7 +3,7 @@ import {ToastOptions} from "ng2-toastr";
 
 export class Consts {
 
-    public static readonly WEB_SERVICE_URL = "http://localhost:3000";
+    public static readonly WEB_SERVICE_URL = "https://isearch-ws.herokuapp.com";
     public static readonly SOURCE_DOCOUMENTS_URL ="http://www.poetry-archive.com";
     public static readonly BASIC_LOADING_MSG = "Loading...";
 }
