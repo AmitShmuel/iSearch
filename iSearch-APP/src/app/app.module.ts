@@ -30,6 +30,7 @@ import { HighlightPipe } from './pipes/highlight.pipe';
 import { DocumentListComponent } from './document-list/document-list.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {ErrorHandlerService} from "./shared/error-handler.service";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 
 @NgModule({
@@ -68,6 +69,9 @@ import {ErrorHandlerService} from "./shared/error-handler.service";
         AuthService,
         ErrorHandlerService,
         {provide: ToastOptions, useClass: CustomToastOption},
+
+        //Allow refresing the app in production
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     bootstrap: [AppComponent]
 })
