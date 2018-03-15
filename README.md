@@ -2,7 +2,9 @@
 
 ## Search Engine Made for Information Retrieval Course in Shenkar, College of Engineering & Design
 
-#### Authors: YoavSaroya & AmitShmuel 
+#### Authors: YoavSaroya & AmitShmuel
+
+# [Go To App](https://saroyaman.github.io/iSearch/#/help)
 
 ##### Database Structure:
 ![DB Structure](/readme_assets/erd.png)
