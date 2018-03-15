@@ -4,7 +4,7 @@
 
 #### Authors: YoavSaroya & AmitShmuel
 
-# [Go To App](https://saroyaman.github.io/iSearch/#/help)
+# [Go To App](https://saroyaman.github.io/iSearch/)
 
 ##### Database Structure:
 ![DB Structure](/readme_assets/erd.png)
